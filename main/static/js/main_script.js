@@ -1,7 +1,6 @@
-onload = () => {
-    const c = setTimeout(() => {
-      document.body.classList.remove("not-loaded");
-      clearTimeout(c);
-    }, 1000);
-  };
-  
+document.getElementById("searchBtn").addEventListener("click", function() {
+  let query = document.getElementById("searchInput").value;
+  if(query) {
+      alert('Mencari: ' + query);
+  }
+});
