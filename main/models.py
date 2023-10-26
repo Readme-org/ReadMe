@@ -3,8 +3,8 @@ from django.db import models
 # Create your models here.
 from django.db import models
 
-class Product(models.Model):
-    name = models.CharField(max_length=255)
-    date_added = models.DateField(auto_now_add=True)
-    price = models.IntegerField()
-    description = models.TextField()
+class Book(models.Model):
+    title = models.CharField(max_length=255)
+    display_title = models.CharField(max_length=255)
+    authors = models.TextField()  # Daftar nama penulis, dipisahkan dengan koma
+    image = models.TextField()
