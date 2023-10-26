@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Book
+import requests
 
 # Create your views here.
 def show_main(request):
@@ -37,7 +38,7 @@ def max_title(title, max_length=20):  # mengganti parameter max_words dengan max
     return title
 
 def database_make(request):
-    query = "romance"
+    query = "random"
     books_data = fetch_books(query, 40)
 
     # Potong setiap judul buku
@@ -52,14 +53,6 @@ def database_make(request):
             authors=authors,
             image=image,
         )
-
         book.save()
     return HttpResponse(b"CREATED", status=201) 
 
-def show_list(request):
-    books = Book.objects.all() 
-
-    context = {
-        'books': books,
-    }
-    return render(request, "list.html", context)
