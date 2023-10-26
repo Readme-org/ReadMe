@@ -30,6 +30,14 @@
 
         <div id="searchResults" class="search-results"></div>
     </div>
+
+    <div id="bookModal" class="book-modal">
+        <div class="book-list">
+            <!-- The book details will be appended here using JS -->
+        </div>
+        <button class="close-modal" onclick="closeModal()">Close</button>
+    </div>
+
     <script src="{% static 'js/main_script.js' %}"></script>
     <script>
     let placeholders = ["saya lagi sedih, kasih saya rekomendasi buku", "saya anak SMA, saya mau belajar ngoding python", "aku mau buku tentang spy dan misteri!"];

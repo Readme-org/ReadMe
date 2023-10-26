@@ -7,7 +7,67 @@
        url('../fonts/AvenirNextLTPro-Bold.svg') format('svg');
 }
 
+.book-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
 
+.book-list {
+  width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.close-modal {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #E1F4FF;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  border-radius: 8px;
+}
+
+.book-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.book-cover {
+  width: 100px;
+  height: 150px;
+  margin-right: 20px;
+}
+
+.book-details {
+  flex: 1;
+}
+
+.book-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.book-description {
+  margin-top: 10px;
+}
+
+.book-rating {
+  margin-top: 5px;
+  font-weight: bold;
+  color: #0A74DA;
+}
 body {
   font-family: 'Inter', sans-serif; 
   background: linear-gradient(120deg, #E1F4FF, #CDEFFF);

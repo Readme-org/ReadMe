@@ -39,3 +39,66 @@ function displayResults(books) {
 
   searchResults.appendChild(ul);
 }
+
+function displayBooks(books) {
+    const bookList = document.querySelector('.book-list');
+    bookList.innerHTML = ''; // Clear any previous results
+    books.forEach(book => {
+        const bookItem = document.createElement('div');
+        bookItem.className = 'book-item';
+
+        const bookCover = document.createElement('img');
+        bookCover.src = book.volumeInfo.imageLinks.thumbnail;
+        bookCover.className = 'book-cover';
+
+        const bookDetails = document.createElement('div');
+        bookDetails.className = 'book-details';
+
+        const bookTitle = document.createElement('h2');
+        bookTitle.className = 'book-title';
+        bookTitle.innerText = book.volumeInfo.title;
+
+        const bookDescription = document.createElement('p');
+        bookDescription.className = 'book-description';
+        bookDescription.innerText = book.volumeInfo.description;
+
+        const bookRating = document.createElement('p');
+        bookRating.className = 'book-rating';
+        bookRating.innerText = `Rating: ${book.volumeInfo.averageRating}/5`;
+
+        bookDetails.appendChild(bookTitle);
+        bookDetails.appendChild(bookDescription);
+        bookDetails.appendChild(bookRating);
+
+        bookItem.appendChild(bookCover);
+        bookItem.appendChild(bookDetails);
+
+        bookList.appendChild(bookItem);
+    });
+    document.getElementById('bookModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('bookModal').style.display = 'none';
+}
+
+// This is just a dummy function to simulate the behavior. 
+// Replace this function with your actual API call.
+function searchBooks(query) {
+    // For the purpose of this demonstration, 
+    // I'm using the sample book you provided.
+    const sampleBooks = [
+        {
+            volumeInfo: {
+                title: "The Art Of Seduction",
+                description: "Description here...",
+                averageRating: 5,
+                imageLinks: {
+                    thumbnail: "http://example.com/image.jpg"
+                }
+            }
+        },
+        // ... Add more sample books as needed
+    ];
+    displayBooks(sampleBooks);
+}
