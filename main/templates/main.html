@@ -11,6 +11,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="main-header">
+        <div class="logo">ReadMe</div>
+        <nav class="main-nav">
+            <a href="#">Book List</a>
+            <a href="#">Saved</a>
+            <a href="#" class="signup-btn">Sign up</a>
+        </nav>
+    </header>
+    
     <div class="background-animation"></div>
     <div class="container">
         <h1 class="tagline">AI-Powered Book Discovery.</h1>
@@ -18,6 +27,8 @@
             <input type="text" placeholder="Contoh: saya anak smp, saya perlu buku mtk" id="searchInput">
             <button id="searchBtn">Search</button>
         </div>
+
+        <div id="searchResults" class="search-results"></div>
     </div>
     <script src="{% static 'js/main_script.js' %}"></script>
     <script>
@@ -51,6 +62,14 @@
         }
         document.querySelector('#searchInput').placeholder = letter;
     }());
+
+    document.getElementById("searchBtn").addEventListener("click", function() {
+  let query = document.getElementById("searchInput").value;
+  if(query) {
+      // Fungsi untuk membuat permintaan ke server akan didefinisikan di main_script.js
+      searchBooks(query);
+  }
+});
     </script>
 </body>
 </html>
