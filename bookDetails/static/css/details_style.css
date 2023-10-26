@@ -78,3 +78,15 @@ body {
 .main-nav a:hover {
     opacity: 0.8;
 }
+
+#diskusibtn {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #0A74DA;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }

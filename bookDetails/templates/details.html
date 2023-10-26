@@ -24,9 +24,15 @@
             <nav class="main-nav">
                 <a href="#">Sorting Book</a>
             </nav>
+            <a href="{% url 'diskusiBook:show_diskusi' id=book.id %}">
+                <button>Diskusi</button>
+            </a>
+            <a href="{% url 'ratingBook:show_rating' id=book.id %}">
+                <button>Rating</button>
+            </a>
         </header>
     </head>
 
     <body>
-
+        
     </body>
