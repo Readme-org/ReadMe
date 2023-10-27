@@ -8,15 +8,24 @@
         <link rel="stylesheet" href="{% static 'css/list_book_style.css' %}">
     </head>
     <body>
-        <section>
-            <div></div>
-        </section>
-
+        
         <section>
             <div class="container-fluid">
+
+                <div class="button-group">
+                    <a href="#" class="button-jns button-active">
+                        <!-- <img src="{% static 'path_to_your_product_icon_image' %}" alt="Product Icon">  -->
+                        All Book
+                    </a>
+                    <a href="#" class="button-jns">
+                        <!-- <img src="{% static 'path_to_your_shop_icon_image' %}" alt="Shop Icon">  -->
+                        Your Book
+                    </a>
+                </div>
+
                 <div id="card-container">
                     {% for book in books %}
-                    <a id="card-container" href="{% url 'bookDetails:show_details' id=book.id %}">
+                    <a href="{% url 'bookDetails:show_details' id=book.id %}">
                         <div class="card text-center">
                             <img src="{{ book.image }}" alt="{{ book.title }} Cover"> 
                             <div class="book-title">
