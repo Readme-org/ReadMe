@@ -90,6 +90,7 @@ def database_make(request):
 
         book = Book(
             user=request.user,
+
             title=title,
             display_title=max_title(title),
             authors=authors,
