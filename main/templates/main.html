@@ -11,15 +11,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="popup" >
+        <div class="popup-header">Pemberitahuan</div>
+        <p>Anda tidak bisa mengakses fitur ini. Untuk mengakses fitur yang lebih banyal, Harap login terlebih dahulu</p>
+        <div class="abc">
+            <button class="close-btn">Close</button>
+            <a href="{% url 'main:login' %}">
+                <button class="login-btn">Login</button>
+            </a>
+        </div>
+    </div>
     <header class="main-header">
         <div class="logo">ReadMe</div>
         <nav class="main-nav">
-            <a href="{% url 'listBook:show_list' %}">Book List</a>
-            <a href="{% url 'wishlistBook:show_wishlist' %}">Saved</a>
-            <a href="#" class="signup-btn">Sign up</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'main:logout' %}" class="logout-btn">Logout</a>
+                <a href="{% url 'listBook:show_list' %}">Book List</a>
+                <a href="{% url 'wishlistBook:show_wishlist' %}">Saved</a>
+            {% endif %}
+            {% if not user.is_authenticated %}
+                <div class="show-login">
+                    <a href="#">Book List</a>
+                    <a href="#">Saved</a>
+                </div>
+                <a href="{% url 'main:register' %}" class="signup-btn">Sign up</a>
+                <a href="{% url 'main:login' %}" class="login-btn" style="color: #0A74DA;">Login</a>
+            {% endif %}
         </nav>
+        {% if user.is_authenticated %}
+            <a href="#">
+                <div id="profile">{{ name }}</div>
+            </a>
+        {% endif %}
     </header>
-    
     <div class="background-animation"></div>
     <div class="container">
         <h1 class="tagline">AI-Powered Book Discovery.</h1>
@@ -78,6 +102,6 @@
       searchBooks(query);
   }
 });
-    </script>
+        </script>
 </body>
 </html>
