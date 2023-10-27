@@ -9,3 +9,6 @@ class Book(models.Model):
     display_title = models.CharField(max_length=255)
     authors = models.TextField()
     image = models.TextField()
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)

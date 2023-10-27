@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReadMe - The Future of Book Search</title>
+    <link rel="stylesheet" href="{% static 'css/main_style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+J4jsl5c9zdLKaUk5Ae5f5b1bw6AUn5f5v8FZJoMxm6f5cH1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <div class="popup" >
+        <div class="popup-header">Pemberitahuan</div>
+        <p>Anda tidak bisa mengakses fitur ini. Untuk mengakses fitur yang lebih banyal, Harap login terlebih dahulu</p>
+        <div class="abc">
+            <button class="close-btn">Close</button>
+            <a href="{% url 'main:login' %}">
+                <button class="login-btn">Login</button>
+            </a>
+        </div>
+    </div>
+    <header class="main-header">
+        <a href="{% url 'main:show_main' %}" class="logo">
+            <div >ReadMe</div>
+        </a>
+        <nav class="main-nav">
+            {% if user.is_authenticated %}
+                <a href="{% url 'main:logout' %}" class="logout-btn">Logout</a>
+                <a href="{% url 'listBook:show_list' %}">Book List</a>
+                <a href="{% url 'wishlistBook:show_wishlist' %}">Saved</a>
+            {% endif %}
+            {% if not user.is_authenticated %}
+                <div class="show-login">
+                    <a href="#">Book List</a>
+                    <a href="#">Saved</a>
+                </div>
+                <a href="{% url 'main:register' %}" class="signup-btn">Sign up</a>
+                <a href="{% url 'main:login' %}" class="login-btn" style="color: #0A74DA;">Login</a>
+            {% endif %}
+        </nav>
+        {% if user.is_authenticated %}
+            <a href="#">
+                <div id="profile">{{ name }}</div>
+            </a>
+        {% endif %}
+    </header>
+    {% block meta %}
+    {% endblock meta %}
+</head>
+
+<body>
+    {% block content %}
+    {% endblock content %}
+</body>
