@@ -7,6 +7,55 @@
        url('../fonts/AvenirNextLTPro-Bold.svg') format('svg');
 }
 
+.loading {
+  position: fixed; 
+  top: 0; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  background: rgba(0,0,0,0.5); 
+  display: none; 
+}
+
+/* Menambahkan kelas disabled untuk tombol yang dinonaktifkan */
+#searchBtn.disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+/* Menambahkan animasi loading yang lebih menarik */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #fff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  right: 40px; 
+  top: 10px; 
+}
+
+
+@keyframes spin {
+  0% { 
+    transform: rotate(0deg);
+    border: 5px solid #000; /* menjadikan warna dan lebar garis lebih kontras */
+  }
+  100% { 
+    transform: rotate(360deg); 
+    border: 5px solid #000; /* menjadikan warna dan lebar garis lebih kontras */
+  }
+}
+
+#buttonContainer {
+  position:relative;
+}
+
+
 #profile {
   display: flex;
   gap: 5px;
@@ -32,33 +81,52 @@
 
 .book-modal {
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.8);
-  display: none;
-  justify-content: center;
-  align-items: center;
+  z-index: 1000;
 }
 
 .book-list {
+  position: relative;
   width: 80%;
   max-height: 80%;
   overflow-y: auto;
   background: #fff;
   padding: 20px;
   border-radius: 8px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  transform: scale(0.7);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.book-list.show {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .close-modal {
-  margin-top: 20px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   padding: 10px 20px;
   background-color: #E1F4FF;
   cursor: pointer;
   border: none;
   font-family: 'Inter', sans-serif;
   border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.close-modal:hover {
+  background-color: #ddd;
 }
 
 .book-item {
@@ -212,8 +280,10 @@ body {
 }
 
 .search-bar {
-  margin-top: 20px;
-  position: relative;
+  position:relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 #searchInput {
@@ -232,7 +302,12 @@ body {
   box-shadow: 0 2px 6px rgba(10, 116, 218, 0.2);
 }
 
+#searchResults {
+  margin-top: 20px;
+}
+
 #searchBtn {
+  margin-right: 50px;
   padding: 15px 30px;
   font-size: 1.2em;
   border: none;
