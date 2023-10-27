@@ -7,6 +7,26 @@
        url('../fonts/AvenirNextLTPro-Bold.svg') format('svg');
 }
 
+.loading {
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #0A74DA;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .book-modal {
   position: fixed;
   top: 0;
@@ -17,6 +37,7 @@
   display: none;
   justify-content: center;
   align-items: center;
+  transition: opacity 0.3s;
 }
 
 .book-list {
@@ -26,6 +47,15 @@
   background: #fff;
   padding: 20px;
   border-radius: 8px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  transform: scale(0.7);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.book-list.show {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .close-modal {
@@ -36,6 +66,12 @@
   border: none;
   font-family: 'Inter', sans-serif;
   border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.close-modal:hover {
+  background-color: #ddd;
 }
 
 .book-item {
