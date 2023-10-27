@@ -10,29 +10,16 @@
 body {
     font-family: 'Roboto', sans-serif;
     background: linear-gradient(120deg, #E1F4FF, #CDEFFF);
-    display: flex;
-    flex-direction: column;
-    justify-content: column;
-    align-items: center;
 }
-  
-  .container {
-    margin-top: 70px;
-  }
-  
-  @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-  }
-  
-  .tagline {
+
+.tagline {
     font-size: 6em;
     max-width: 80%;
     color: #0A74DA;
     font-weight: bold;
     font-family: 'AvenirNext', sans-serif;
     margin-bottom: 30px;
-  }
+}
 
 #rating-btn {
     padding: 15px 30px;
@@ -47,13 +34,13 @@ body {
 }
 
 #card-container {
+    position: relative;
     display: flex;
     flex-wrap: wrap;
-    width: 2000px;
-    height: 800px;
-    align-items: stretch; /* memastikan semua kartu memiliki tinggi yang sama di baris yang sama */
+    width: 100%;
+    padding-top: 120px;
+    align-items: stretch;
     justify-content: center;
-    /* padding-top: 1000px; */
 }
 
 #card-container a {
@@ -61,12 +48,11 @@ body {
 }
 
 .card {
-    display: flex; /* menjadikan card sebagai kontainer flex */
-    flex-direction: column; /* mengatur konten card secara vertikal */
-    justify-content: space-between; /* menyebarkan konten di card */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     width: 300px;
-    /* height: 400px; */ /* menghapus properti height agar kartu menyesuaikan tinggi secara otomatis */
     border-radius: 15px;
     margin: 40px;
     padding: 40px 20px;
@@ -96,10 +82,9 @@ body {
 
 .button-group {
     display: flex;
-    justify-content: start;
+    justify-content: center;
     gap: 20px;
-    padding-top: 20px;
-    margin-left: 900px;
+    padding-top: 110px;
     align-items: center;
 }
 
@@ -127,5 +112,5 @@ body {
 
 .button-active {
     background-color: #ffffff;
-    border-bottom: 3px solid #4CAF50;
+    border-bottom: 4px solid #4CAF50;
 }
