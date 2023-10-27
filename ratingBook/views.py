@@ -9,4 +9,4 @@ def show_rating(request, id):
         'book': book,
     }
 
-    return render(request, "diskusi.html", context)
+    return render(request, "rating.html", context)
