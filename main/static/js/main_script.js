@@ -92,6 +92,7 @@ function closeModal() {
   // This is just a dummy function to simulate the behavior. 
   // Replace this function with your actual API call.
   function searchBooks(query) {
+<<<<<<< HEAD
     fetch('http://127.0.0.1:5000/AI_Search', {
         method: 'POST',
         headers: {
@@ -107,3 +108,29 @@ function closeModal() {
         console.error('Error:', error);
     });
 }
+=======
+      // For the purpose of this demonstration, 
+      // I'm using the sample book you provided.
+      const sampleBooks = [
+          {
+              volumeInfo: {
+                  title: "The Art Of Seduction",
+                  description: "Description here...",
+                  averageRating: 5,
+                  imageLinks: {
+                      thumbnail: "http://example.com/image.jpg"
+                  }
+              }
+          },
+          // ... Add more sample books as needed
+      ];
+      displayBooks(sampleBooks);
+  }
+
+document.querySelector(".show-login").addEventListener("click", function(){
+    document.querySelector(".popup").classList.add("active")
+});
+document.querySelector(".popup .close-btn").addEventListener("click", function(){
+    document.querySelector(".popup").classList.remove("active")
+});
+>>>>>>> 51367e1357c975bb79be4bc8d568abf9f4f9e7d7

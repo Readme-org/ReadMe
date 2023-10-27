@@ -1,25 +1,13 @@
+{% include 'header.html' %}
+
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReadMe - The Future of Book Search</title>
-    <link rel="stylesheet" href="{% static 'css/main_style.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
-    <header class="main-header">
-        <div class="logo">ReadMe</div>
-        <nav class="main-nav">
-            <a href="{% url 'listBook:show_list' %}">Book List</a>
-            <a href="#">Saved</a>
-            <a href="#" class="signup-btn">Sign up</a>
-        </nav>
-    </header>
-    
     <div class="background-animation"></div>
     <div class="container">
         <h1 class="tagline">AI-Powered Book Discovery.</h1>
@@ -82,6 +70,6 @@
       searchBooks(query);
   }
 });
-    </script>
+        </script>
 </body>
 </html>

@@ -7,5 +7,4 @@ app_name = 'listBook'
 urlpatterns = [
     path('', show_main, name='show_main'),
     path('list-book', show_list, name='show_list'),
-    
 ]
