@@ -36,10 +36,8 @@
                 <a href="{% url 'wishlistBook:show_wishlist' %}">Saved</a>
             {% endif %}
             {% if not user.is_authenticated %}
-                <div class="show-login">
-                    <a href="#">Book List</a>
-                    <a href="#">Saved</a>
-                </div>
+                <a href="{% url 'main:login' %}">Book List</a>
+                <a href="{% url 'main:login' %}">Saved</a>
                 <a href="{% url 'main:register' %}" class="signup-btn">Sign up</a>
                 <a href="{% url 'main:login' %}" class="login-btn" style="color: #0A74DA;">Login</a>
             {% endif %}
