@@ -1,0 +1,24 @@
+{% include 'header.html' %}
+
+{% load static %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'css/list_book_style.css' %}">
+</head>
+
+<body>
+    <section>
+        <div class="container-fluid">
+            <div class="button-group">
+                <a href="{% url 'listBook:show_list' %}" class="button-jns">
+                    All Book
+                </a>
+                <a href="{% url 'listBook:show_myBook' %}" class="button-jns button-active">
+                    My Book
+                </a>
+            
+            </div>
+        </div>
+    </section>
+    
+</body>
