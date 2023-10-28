@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.models import User
 import requests
 
 def login_user(request):
@@ -86,6 +87,7 @@ def database_make(request):
         title = book_data['volumeInfo']['title']
         authors = ", ".join(book_data['volumeInfo'].get('authors', []))
         image = book_data['volumeInfo']['imageLinks']['thumbnail']
+        
 
         book = Book(
             title=title,

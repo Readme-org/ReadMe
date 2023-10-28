@@ -8,18 +8,14 @@
         <link rel="stylesheet" href="{% static 'css/list_book_style.css' %}">
     </head>
     <body>
-        
         <section>
             <div class="container-fluid">
-
                 <div class="button-group">
-                    <a href="#" class="button-jns button-active">
-                        <!-- <img src="{% static 'path_to_your_product_icon_image' %}" alt="Product Icon">  -->
+                    <a href="{% url 'listBook:show_list' %}" class="button-jns button-active">
                         All Book
                     </a>
-                    <a href="#" class="button-jns">
-                        <!-- <img src="{% static 'path_to_your_shop_icon_image' %}" alt="Shop Icon">  -->
-                        Your Book
+                    <a href="{% url 'listBook:show_myBook' %}" class="button-jns">
+                        My Book
                     </a>
                 </div>
 
