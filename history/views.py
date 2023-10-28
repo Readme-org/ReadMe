@@ -7,7 +7,6 @@ from django.contrib import messages
 from .models import SearchHistory
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
 
-
 @login_required
 def history(request):
     if request.method == 'POST':
