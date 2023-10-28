@@ -1,0 +1,26 @@
+{% include 'header.html' %}
+
+{% load static %}
+
+
+{% block content %}
+<h1>Search History</h1>
+<ul>
+    {% for history in histories %}
+    <li>
+        <p>{{ history.query }}</p>
+        <p>{{ history.created_at }}</p>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="history_id" value="{{ history.id }}">
+            <label for="is_important">Important</label>
+            <input type="checkbox" id="is_important" name="is_important" {% if history.is_important %}checked{% endif %}>
+            <label for="tag">Tag</label>
+            <input type="text" id="tag" name="tag" value="{{ history.tag }}">
+            <button type="submit" name="action" value="edit">Update</button>
+            <button type="submit" name="action" value="delete">Delete</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
