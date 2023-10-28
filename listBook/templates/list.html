@@ -9,14 +9,19 @@
     </head>
     <body>
         <section>
-            <div></div>
-        </section>
-
-        <section>
             <div class="container-fluid">
+                <div class="button-group">
+                    <a href="{% url 'listBook:show_list' %}" class="button-jns button-active">
+                        All Book
+                    </a>
+                    <a href="{% url 'listBook:show_myBook' %}" class="button-jns">
+                        My Book
+                    </a>
+                </div>
+
                 <div id="card-container">
                     {% for book in books %}
-                    <a id="card-container" href="{% url 'bookDetails:show_details' id=book.id %}">
+                    <a href="{% url 'bookDetails:show_details' id=book.id %}">
                         <div class="card text-center">
                             <img src="{{ book.image }}" alt="{{ book.title }} Cover"> 
                             <div class="book-title">

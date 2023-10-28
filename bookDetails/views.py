@@ -6,6 +6,7 @@ def show_details(request, id):
     book = Book.objects.get(pk = id)
 
     context = {
+        'name': request.user.username,
         'book': book,
     }
 
