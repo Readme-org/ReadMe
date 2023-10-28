@@ -6,7 +6,7 @@ from .models import Rating
 
 # Create your views here.
 def debug(request):
-    return render(request, 'book_rating.html')
+    return render(request, 'rating.html')
 
 def show_rating(request, id):
     ratings = Rating.objects.filter(book_id=id)
@@ -15,7 +15,7 @@ def show_rating(request, id):
         'ratings': ratings
     }
     
-    return render(request, 'book_rating.html', context)
+    return render(request, 'rating.html', context)
 
 def get_rating_json(request, id):
     ratings = Rating.objects.filter(book_id=id)
