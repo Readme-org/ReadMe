@@ -7,42 +7,30 @@ from django.shortcuts import reverse
 
 # Create your models here.
 
+def get_default_post():
+    return Post.objects.get_or_create(content="test")[0]
+
+def get_default_book():
+    return Book.objects.get_or_create(title="test")[0]
+
+def get_default_comment():
+    return Comment.objects.get_or_create(content="test")[0]
     
-class Reply(models.Model):
+class Post(models.Model):
+    Book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    title = models.CharField(max_length=300)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.content[:100]
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    replies = models.ManyToManyField(Reply, blank=True)
-
-    def __str__(self):
-        return self.content[:100]
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
     
-class Post(models.Model):
-    title = models.CharField(max_length=300)
-    slug = models.SlugField(max_length=300, unique=True, blank=True)
+class Reply(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-    # approved boolean
-    comment = models.ManyToManyField(Comment, blank=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Post, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-    
-    def get_url(self):
-        return reverse("diskusi", kwargs={
-            "slug": self.slug
-        })
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
