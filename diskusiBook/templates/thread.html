@@ -1,0 +1,7 @@
+{% for post in posts %}
+<h1>{{ post.title }}</h1>
+<h1>by {{ post.user.fullname|title }}</h1>
+<h1>{{ post.content }}</h1>
+{{post.last_reply.user.fullname|title}}
+{{post.last_reply.date|date}}
+{% endfor %}
