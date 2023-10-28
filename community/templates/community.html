@@ -1,0 +1,13 @@
+{% include 'header.html' %}
+
+{% load static %}
+
+{% for post in posts %}
+<div class="post">
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.content }}</p>
+  <span>Votes: {{ post.votes }}</span>
+  <button class="upvote" data-id="{{ post.id }}">Upvote</button>
+  <button class="downvote" data-id="{{ post.id }}">Downvote</button>
+</div>
+{% endfor %}

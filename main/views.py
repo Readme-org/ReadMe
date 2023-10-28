@@ -87,6 +87,7 @@ def database_make(request):
         title = book_data['volumeInfo']['title']
         authors = ", ".join(book_data['volumeInfo'].get('authors', []))
         image = book_data['volumeInfo']['imageLinks']['thumbnail']
+        
 
         book = Book(
             title=title,

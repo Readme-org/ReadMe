@@ -14,19 +14,23 @@
         <div class="search-bar">
             <input type="text" placeholder="Contoh: saya anak smp, saya perlu buku mtk" id="searchInput">
             <button id="searchBtn">Search</button>
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+            </div>
         </div>
 
         <div id="searchResults" class="search-results"></div>
     </div>
 
-    <div id="bookModal" class="book-modal">
+    <div id="bookModal" class="book-modal" style="display: none;">
         <div class="book-list">
             <!-- The book details will be appended here using JS -->
         </div>
         <button class="close-modal" onclick="closeModal()">Close</button>
-    </div>
+      </div>
 
     <script src="{% static 'js/main_script.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     let placeholders = ["saya lagi sedih, kasih saya rekomendasi buku", "saya anak SMA, saya mau belajar ngoding python", "aku mau buku tentang spy dan misteri!"];
     let count = 0;
@@ -59,13 +63,25 @@
         document.querySelector('#searchInput').placeholder = letter;
     }());
 
-    document.getElementById("searchBtn").addEventListener("click", function() {
-  let query = document.getElementById("searchInput").value;
-  if(query) {
-      // Fungsi untuk membuat permintaan ke server akan didefinisikan di main_script.js
-      searchBooks(query);
-  }
-});
-        </script>
+    document.getElementById("searchBtn").addEventListener("click", function(e) {
+        e.preventDefault();
+        let query = document.getElementById("searchInput").value;
+        if(query) {
+            document.getElementById("searchBtn").disabled = true;
+            document.getElementById("searchBtn").classList.add("disabled");
+            document.getElementById("loadingIndicator").style.display = "block";
+            searchBooks(query).then(() => {
+                document.getElementById("searchBtn").disabled = false;
+                document.getElementById("searchBtn").classList.remove("disabled");
+                document.getElementById("loadingIndicator").style.display = "none";
+            }).catch((error) => {
+                console.error('Error:', error);
+                document.getElementById("searchBtn").disabled = false;
+                document.getElementById("searchBtn").classList.remove("disabled");
+                document.getElementById("loadingIndicator").style.display = "none";
+            });
+        }
+    });
+    </script>
 </body>
 </html>
