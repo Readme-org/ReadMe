@@ -11,3 +11,12 @@ def show_list(request):
         'books': books,
     }
     return render(request, "list.html", context)
+
+def show_myBook(request):
+    books = Book.objects.all()
+
+    context = {
+        'name': request.user.username,
+        'books': books,
+    }
+    return render(request, "myBook.html", context)

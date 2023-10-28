@@ -88,6 +88,10 @@ body {
     align-items: center;
 }
 
+.button-add {
+    padding-left: 20px;
+}
+
 .button-jns {
     display: flex;
     align-items: center;
@@ -99,11 +103,6 @@ body {
     background-color: #f9f9f9;
     text-decoration: none;
     color: #333;
-}
-
-.button-jns img {
-    width: 20px;
-    margin-right: 8px;
 }
 
 .button-jns:hover {

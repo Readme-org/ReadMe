@@ -89,7 +89,6 @@ def database_make(request):
         image = book_data['volumeInfo']['imageLinks']['thumbnail']
 
         book = Book(
-            user=request.user,
             title=title,
             display_title=max_title(title),
             authors=authors,
