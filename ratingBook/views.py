@@ -5,6 +5,7 @@ from django.forms.models import model_to_dict
 from .models import Rating, Book
 
 # Create your views here.
+@login_required(login_url='main:login')
 def show_rating(request):
     books = Book.objects.all()
 
@@ -14,9 +15,13 @@ def show_rating(request):
 
     return render(request, 'rating.html', context)
 
+@login_required(login_url='main:login')
 def show_rating_to_update(request, id):
     review = Rating.objects.get(id=id)
     book = Book.objects.get(id=review.book_id)
+
+    if request.user != review.user:
+        return HttpResponseForbidden('You are not allowed to update this rating')
 
     context = {
         'book': book,
