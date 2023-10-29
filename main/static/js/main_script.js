@@ -19,6 +19,11 @@ function searchBooks(query) {
         body: JSON.stringify({ context: query })
     }).then(response => response.json())
       .then(data => {
+        if (!data || !data.books) {
+            console.error('Invalid data from server:', data);
+            return;
+        }
+        console.log(data); 
         displayBooks(data.books);
     }).catch((error) => {
         console.error('Error:', error);
@@ -46,53 +51,55 @@ function closeModal() {
 }
 
 function displayBooks(books) {
-    const bookList = document.querySelector('.book-list');
-    bookList.innerHTML = '';
-    bookList.classList.add('show');
-    books.forEach(book => {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.href = `https://www.google.com/search?q=${encodeURIComponent(book)}`;
-        a.textContent = book;
-        a.target = "_blank"; 
-  
-        li.appendChild(a);
-        ul.appendChild(li);
-    });
-  
-    document.getElementById('bookModal').style.display = 'flex';
-  }  
-
-  function displayBooks(books) {
+    if (!books || !Array.isArray(books)) {
+        console.error('Invalid books data:', books);
+        return;
+    }
+    
     const bookList = document.querySelector('.book-list');
     bookList.innerHTML = ''; // Clear any previous results
     bookList.classList.add('show'); // Add transition effect
+
     books.forEach(book => {
+        if (!book || !book.volumeInfo) {
+            return;
+        }
+        const bookVolumeInfo = book.volumeInfo || {};
+        
         const bookItem = document.createElement('div');
         bookItem.className = 'book-item';
 
         const bookCover = document.createElement('img');
-        bookCover.src = book.volumeInfo.imageLinks.thumbnail;
         bookCover.className = 'book-cover';
+        // Cek jika imageLinks dan thumbnail ada
+        if (bookVolumeInfo.imageLinks?.thumbnail) {
+            bookCover.src = bookVolumeInfo.imageLinks.thumbnail;
+        } else {
+            bookCover.src = "{% static 'default_cover.jpg' %}"; 
+        }
 
         const bookDetails = document.createElement('div');
         bookDetails.className = 'book-details';
 
         const bookTitle = document.createElement('h2');
         bookTitle.className = 'book-title';
-        bookTitle.innerText = book.volumeInfo.title;
+        bookTitle.innerText = bookVolumeInfo.title || 'Judul tidak tersedia';
 
         const bookDescription = document.createElement('p');
         bookDescription.className = 'book-description';
-        bookDescription.innerText = book.volumeInfo.description;
+        bookDescription.innerText = bookVolumeInfo.description || 'Deskripsi tidak tersedia';
 
         const bookRating = document.createElement('p');
         bookRating.className = 'book-rating';
-        bookRating.innerText = `Rating: ${book.volumeInfo.averageRating}/5`;
+        bookRating.innerText = `Rating: ${(bookVolumeInfo.averageRating || 0)}/5`;
 
         const bookAuthors = document.createElement('p');
         bookAuthors.className = 'book-authors';
-        bookAuthors.innerText = `Authors: ${book.volumeInfo.authors.join(', ')}`;
+        if (bookVolumeInfo.authors && Array.isArray(bookVolumeInfo.authors) && bookVolumeInfo.authors.length) {
+            bookAuthors.innerText = `Authors: ${bookVolumeInfo.authors.join(', ')}`;
+        } else {
+            bookAuthors.innerText = "Authors: Tidak diketahui";
+        }
 
         bookDetails.appendChild(bookTitle);
         bookDetails.appendChild(bookDescription);
@@ -104,5 +111,9 @@ function displayBooks(books) {
 
         bookList.appendChild(bookItem);
     });
+    
     document.getElementById('bookModal').style.display = 'flex';
 }
+
+
+

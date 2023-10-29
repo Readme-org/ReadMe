@@ -5,12 +5,25 @@
     gap: 15px;
 }
 
+input[type='search'] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 15px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
 .history-item {
-    display: flex;
+    display: none;
     justify-content: space-between;
     border-top: 1px solid #ccc;
     padding: 10px;
     align-items: center;
+}
+
+.history-item.shown {
+    display: flex;
 }
 
 .history-content {
