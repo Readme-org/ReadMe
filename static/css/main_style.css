@@ -1,0 +1,405 @@
+@font-face {
+  font-family: 'AvenirNext';
+  src: url('../fonts/AvenirNextLTPro-Bold.woff2') format('woff2'),
+       url('../fonts/AvenirNextLTPro-Bold.woff') format('woff'),
+       url('../fonts/AvenirNextLTPro-Bold.otf') format('opentype'),
+       url('../fonts/AvenirNextLTPro-Bold.eot') format('eot'),
+       url('../fonts/AvenirNextLTPro-Bold.svg') format('svg');
+}
+
+.loading {
+  position: fixed; 
+  top: 0; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  background: rgba(0,0,0,0.5); 
+  display: none; 
+}
+
+/* Menambahkan kelas disabled untuk tombol yang dinonaktifkan */
+#searchBtn.disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+/* Menambahkan animasi loading yang lebih menarik */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #fff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  right: 40px; 
+  top: 10px; 
+}
+
+
+@keyframes spin {
+  0% { 
+    transform: rotate(0deg);
+    border: 5px solid #000; /* menjadikan warna dan lebar garis lebih kontras */
+  }
+  100% { 
+    transform: rotate(360deg); 
+    border: 5px solid #000; /* menjadikan warna dan lebar garis lebih kontras */
+  }
+}
+
+#buttonContainer {
+  position:relative;
+}
+
+
+#profile {
+  display: flex;
+  gap: 5px;
+  font-size: 1.4em;
+  margin-right: 68px;
+  text-decoration: none;
+  color: #ffffff;
+  padding: 4px 6px;
+  border-radius: 5px;
+}
+
+.logout-btn {
+  background-color: #e40d0d;
+  color: #da0a0a;
+  padding: 8px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #f90a0a;
+}
+
+.book-modal {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+}
+
+.book-list {
+  position: relative;
+  width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  transform: scale(0.7);
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.book-list.show {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.close-modal {
+  position: absolute;
+  top: 10.5%;
+  right: 11.8%;
+  padding: 10px 20px;
+  background-color: #E1F4FF;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.close-modal:hover {
+  background-color: #ddd;
+}
+
+.book-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.book-cover {
+  width: 100px;
+  height: 150px;
+  margin-right: 20px;
+}
+
+.book-details {
+  flex: 1;
+}
+
+.book-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.book-description {
+  margin-top: 10px;
+}
+
+.book-rating {
+  margin-top: 5px;
+  font-weight: bold;
+  color: #0A74DA;
+}
+body {
+  font-family: 'Inter', sans-serif; 
+  background: linear-gradient(120deg, #E1F4FF, #CDEFFF);
+  margin: 0;
+  transition: background-color 0.5s;
+}
+
+#search-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 50px;
+  background-color: #0A74DA;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.main-header .logo {
+  font-family: 'Inter', sans-serif;  /* You mentioned using 'Inter' font for the logo */
+  color: #ffffff;
+  font-size: 1.7em;
+  font-weight: bold;
+  margin-right: auto;
+  margin-left: 68px;
+  text-decoration: none;
+}
+
+.main-nav {
+  display: flex;
+  gap: 15px;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: #ffffff;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.main-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.signup-btn {
+  background-color: #0160ba;
+  color: #0A74DA;
+  padding: 8px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.signup-btn:hover {
+  background-color: #0160ba;
+}
+
+.login-btn {
+  background-color: #eee;
+  
+  padding: 8px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #0160ba;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 10%;
+  background-color: #0A74DA;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-nav {
+  display: flex;
+  gap: 20px;
+  margin-right: 68px;
+}
+
+.main-nav a {
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.main-nav a:hover {
+  opacity: 0.8;
+}
+
+.container {
+  margin-top: 70px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.tagline {
+  font-size: 6em;
+  max-width: 80%;
+  color: #0A74DA;
+  font-weight: bold;
+  font-family: 'AvenirNext', sans-serif;
+  margin-bottom: 30px;
+}
+
+.search-bar {
+  position:relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#searchInput {
+  width: 60vw;
+  max-width: 600px;
+  padding: 15px;
+  font-size: 1.2em;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+#searchInput:focus {
+  border: 1px solid #0A74DA;
+  box-shadow: 0 2px 6px rgba(10, 116, 218, 0.2);
+}
+
+#searchResults {
+  margin-top: 20px;
+}
+
+#searchBtn {
+  margin-right: 50px;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  background-color: #0A74DA;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#searchBtn:hover {
+  background-color: #0057a3;
+}
+
+.show-login {
+  margin-top: 6.5px;
+}
+
+.popup {
+  position: absolute;
+  top: -150%;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1.25);
+  width: 400px;
+  height: 280px;
+  /* padding: 20px 30px; */
+  background-color: #eee;
+  border-radius: 15px;
+  transition: top 0ms ease-in-out 200ms,
+              opacity 200ms ease-in-out 0ms,
+              transform 20ms ease-in-out 0ms;
+}
+
+.popup.active {
+  top: 50%;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  transition: top 0ms ease-in-out 200ms,
+              opacity 200ms ease-in-out 0ms,
+              transform 20ms ease-in-out 0ms;
+}
+
+.popup p {
+  font-size: 1.4em;
+  text-align:center;
+}
+
+.popup .close-btn {
+  /* position: absolute; <-- Hapus baris ini */
+  padding: 15px 30px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px; /* Tambahkan margin untuk memberi jarak antara dua tombol */
+  background-color: #e40d0d;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.popup .login-btn {
+  padding: 15px 30px; /* Sesuaikan padding agar konsisten dengan close-btn */
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px; /* Sesuaikan border-radius agar konsisten dengan close-btn */
+  background-color: #0A74DA;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.abc {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Gantikan space-between dengan center */
+  gap: 10px; /* Untuk memberi jarak antara item-item flex */
+}
+
+.popup-header {
+  padding: 10px 20px;
+  background-color: #0A74DA;
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+  border-top-left-radius: 15px; /* Sesuai dengan border popup */
+  border-top-right-radius: 15px; /* Sesuai dengan border popup */
+  text-align: center;
+  width: 100%; /* Memastikan header memanjang dari ujung ke ujung */
+  box-sizing: border-box; /* Agar padding dimasukkan ke dalam ukuran total */
+}

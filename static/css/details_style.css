@@ -1,0 +1,114 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(120deg, #E1F4FF, #CDEFFF);
+    margin: 0;
+    padding: 0;
+}
+
+.table-page {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1500px; /* Atur sesuai keinginan */
+    height: 100vh;
+    background-color: #FFFFFF;
+    overflow: auto;
+    padding-top: 60px; /* tambahkan ini */
+}
+
+
+.breadcrumb {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.product-card {
+    max-width: 800px;
+    max-height: 800px;
+}
+
+.product-image {
+    width: 800px;
+    height: 800px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 8px;
+}
+
+.product-image img {
+    width: 40%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+}
+
+.product-details {
+    width: 50%;
+    padding-right: 50px;
+}
+
+.product-meta {
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.product-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.product-button-active {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: #c01111;
+    color: #FFFFFF;
+}
+
+.product-button:hover {
+    background-color: #e0e0e0;
+}
+
+.product-description p, .product-description ul {
+    margin-bottom: 10px;
+    padding-top: 10px;
+}
+
+td .details-row {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin: 0 auto;
+    width: 100%;
+}
+
+.btn-del-container {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 70px;
+    width: 100%;
+}
+
+.del-button {
+    padding: 10px 20px;
+    /* margin-left: 40px;
+    margin-top: 20px; */
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #e40d0d;
+    color: #FFFFFF;
+}
+
+.del-button:hover {
+    background-color: #c01111;
+}
