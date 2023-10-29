@@ -106,6 +106,11 @@ function displayBooks(books) {
         bookDetails.appendChild(bookRating);
         bookDetails.appendChild(bookAuthors);
 
+        const addToMyBooksButton = document.createElement('button');
+        addToMyBooksButton.className = 'book-button-add'
+        addToMyBooksButton.innerText = "Add to My Books";
+        bookDetails.appendChild(addToMyBooksButton);
+
         bookItem.appendChild(bookCover);
         bookItem.appendChild(bookDetails);
 
@@ -115,5 +120,45 @@ function displayBooks(books) {
     document.getElementById('bookModal').style.display = 'flex';
 }
 
+// addBookToMyBooks.addEventListener('click', function(e) {
+//     e.preventDefault();
+//     addBookToMyBooks(
+//         bookVolumeInfo.title || 'Judul tidak tersedia',
+//         bookVolumeInfo.authors || 'Tidak diketahui',
+//         bookVolumeInfo.description || 'Deskripsi tidak tersedia',
+//         bookVolumeInfo.imageLinks.thumbnail,
+//         book.isbn
+//     );
+// });
 
 
+
+function addBook(title, authors, description, image, isbn) {
+    var csrftoken = getCookie('csrftoken');  // Get CSRF token
+
+    fetch('/add_book', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken  // Add CSRF token to request header
+        },
+        body: JSON.stringify({ 
+            title: title,
+            authors: authors,
+            description: description,
+            image: image,
+            isbn: isbn 
+        })
+      });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("button_add").onclick = addBook;
+});
+
+const buttonAdd = document.getElementById("button_add");
+if (buttonAdd !== null) {
+    buttonAdd.onclick = addBook;
+} else {
+    console.error("Element with ID 'button_add' is not found.");
+}

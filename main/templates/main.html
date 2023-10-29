@@ -21,6 +21,9 @@
 
         <div id="searchResults" class="search-results"></div>
     </div>
+    
+    <button class="button-jns button-add" data-bs-toggle="modal" data-bs-target="#exampleModal">Tambah Buku</button>
+
 
     <div id="bookModal" class="book-modal" style="display: none;">
         <div class="book-list">
@@ -29,8 +32,53 @@
         <button class="close-modal" onclick="closeModal()">Close</button>
       </div>
 
+    
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Book</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="title" class="col-form-label">Title:</label>
+                            <input type="text" class="form-control" id="title" name="title"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="authors" class="col-form-label">Authors:</label>
+                            <input type="text" class="form-control" id="authors" name="authors"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="isbn" class="col-form-label">ISBN:</label>
+                            <input type="text" class="form-control" id="isbn" name="isbn"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="col-form-label">Image:</label>
+                            <textarea class="form-control" id="image" name="image"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="description" name="description"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{% static 'js/main_script.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/list_script.js' %}"
+        data-get-book-url="{% url 'main:get_book' %}"
+        data-add-book-url="{% url 'main:add_book' %}">
+    </script>
     <script>
     let placeholders = ["saya lagi sedih, kasih saya rekomendasi buku", "saya anak SMA, saya mau belajar ngoding python", "aku mau buku tentang spy dan misteri!"];
     let count = 0;
