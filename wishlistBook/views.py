@@ -1,35 +1,37 @@
-import json
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from listBook.models import myBook
 from wishlistBook.models import WishlistBook
-from django.core import serializers
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 
-# Create your views here.
 @login_required(login_url='/login')
 def show_wishlist(request):
-    books = WishlistBook.objects.filter(user=request.user)
+    user = request.user
+    wishlist = WishlistBook.objects.filter(user=user)
     context = {
-        'name': request.user.username,
-        'books': books, 
+        'books': wishlist,
     }
     return render(request, "wishlist.html", context)
 
-def get_books_json(request):
-    books_wishlist = WishlistBook.objects.filter(user=request.user)
-    wishlist = []
-    for book in books_wishlist:
-        wishlist.append({
-            'title': book.book.title,
-            'display_title': book.book.display_title,
-            'authors': book.book.authors,
-            'image': book.book.image,
-        })
-    final = json.dumps(wishlist)
-    return HttpResponse(final, content_type ='application/json')
+@csrf_exempt
+def get_books_json(request, id_book):
+    user = request.user
+    book = myBook.objects.get(pk=id_book)
+    _, created = WishlistBook.objects.get_or_create(user=user, book=book)
 
+    if created:
+        return HttpResponse(b"CREATED", status=201)
+    else:
+        return HttpResponse(b"ALREADY EXIST", status=200)
+
+@csrf_exempt
 def deleteWishlist(request, id):
-    wishlist = WishlistBook.objects.get(pk=id)
-    wishlist.delete()
-    return HttpResponse(b"Deleted", 201)
+    user = request.user
+    try:
+        wishlist = WishlistBook.objects.get(user=user, book__id=id)
+        wishlist.delete()
+        return HttpResponse(b"DELETED", status=201)
+    except WishlistBook.DoesNotExist:
+        return HttpResponse(b"NOT FOUND", status=404)

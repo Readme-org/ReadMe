@@ -1,22 +1,24 @@
 {% include 'header.html' %}
 {% load static %}
 
+{% block content %}
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
-    </head>
-    <body>
-        <div id="card-container">
-            {% for book in books %}
-            <div class="card">
-                <img src="{% static book.image %}" alt="{{ book.title }} Cover">
-                <div class="book-title">
-                    <h2>{{ book.display_title }}</h2>
-                </div>
-                <p>Penulis: {{ book.authors }}</p>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
+</head>
+<body>
+    <div id="card-container">
+        {% for book in books %}
+        <div class="card">
+            <img src="{% static book.book.image %}" alt="{{ book.book.title }} Cover">
+            <div class="book-title">
+                <h2>{{ book.book.display_title }}</h2>
             </div>
-            {% endfor %}
+            <p>Penulis: {{ book.book.authors }}</p>
         </div>
-    </body>
+        {% endfor %}
+    </div>
+</body>
 </html>
+{% endblock %}
