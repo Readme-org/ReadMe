@@ -24,7 +24,7 @@
                             <div class="mb-3">
                                 <select class="shadow form-control selectpicker" required name="book" id="book" data-live-search="true" title="Choose a book">
                                     {% for book in books %}
-                                    <option data-tokens="{{ book.title }} {{ book.author }}" value="{{ book.id }}">{{ book.title }} by {{ book.author }}</option>
+                                    <option data-tokens="{{ book.title }} {{ book.authors }}" value="{{ book.id }}">{{ book.title }} by {{ book.authors }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
