@@ -8,9 +8,6 @@ class Book(models.Model):
     display_title = models.CharField(max_length=255)
     authors = models.TextField()
     image = models.TextField()
-    description = models.TextField()
-    isbn = models.CharField(max_length=255)
-    genre = models.CharField(max_length=255)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

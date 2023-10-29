@@ -113,8 +113,8 @@
 
 .close-modal {
   position: absolute;
-  top: 10.5%;
-  right: 11.8%;
+  top: 10px;
+  right: 10px;
   padding: 10px 20px;
   background-color: #E1F4FF;
   cursor: pointer;
