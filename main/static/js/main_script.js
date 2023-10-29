@@ -1,5 +1,17 @@
 function searchBooks(query) {
-    return fetch('http://127.0.0.1:5000/AI_Search', {
+    var csrftoken = getCookie('csrftoken');  // Get CSRF token
+
+    // Save search query to database
+    fetch('history/add/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken  // Add CSRF token to request header
+        },
+        body: JSON.stringify({ query: query })
+      });
+
+    return fetch('https://octopus-app-cvv6j.ondigitalocean.app/AI_Search', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -11,6 +23,21 @@ function searchBooks(query) {
     }).catch((error) => {
         console.error('Error:', error);
     });
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
 function closeModal() {
@@ -78,11 +105,4 @@ function displayBooks(books) {
         bookList.appendChild(bookItem);
     });
     document.getElementById('bookModal').style.display = 'flex';
-}
-  
-function closeModal() {
-    document.querySelector('.book-list').classList.remove('show');
-    setTimeout(() => {
-        document.getElementById('bookModal').style.display = 'none';
-    }, 300);
 }
