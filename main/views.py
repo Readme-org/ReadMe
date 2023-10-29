@@ -79,22 +79,42 @@ def max_title(title, max_length=20):  # mengganti parameter max_words dengan max
     return title
 
 def database_make(request):
-    query = "random"
-    books_data = fetch_books(query, 40)
+    query = [
+        "romance comedy",
+        "action",
+        "Fantasy",
+        "fiction",
+        "manga",
+        "science",
+    ]
+    for i in range(len(query)):
+        books_data = fetch_books(query[i], 20)
 
-    # Potong setiap judul buku
-    for book_data in books_data:
-        title = book_data['volumeInfo']['title']
-        authors = ", ".join(book_data['volumeInfo'].get('authors', []))
-        image = book_data['volumeInfo']['imageLinks']['thumbnail']
-        
+        # Potong setiap judul buku
+        for book_data in books_data:
+            title = book_data['volumeInfo']['title']
+            authors = ", ".join(book_data['volumeInfo'].get('authors', []))
+            image = book_data['volumeInfo']['imageLinks']['thumbnail']
+            description = book_data['volumeInfo'].get('description', 'No description available')
+            industryIdentifiers = book_data['volumeInfo'].get('industryIdentifiers', [])
+            isbn = ""
+            genre = query[i]
+            
+            for identifier in industryIdentifiers:
+                if identifier['type'] == 'ISBN_13':
+                    isbn = identifier['identifier']
+                    break
 
-        book = Book(
-            title=title,
-            display_title=max_title(title),
-            authors=authors,
-            image=image,
-        )
-        book.save()
-    return HttpResponse(b"CREATED", status=201) 
+            book = Book(
+                title=title,
+                display_title=max_title(title),
+                authors=authors,
+                image=image,
+                description=description,
+                isbn=isbn,
+                genre=genre                 
+            )
+            book.save()
+    return HttpResponse(b"CREATED DATABASE", status=201)
+
 

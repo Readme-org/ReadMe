@@ -2,15 +2,14 @@
 
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" href="{% static 'css/list_book_style.css' %}">
-    </head>
-    <body>
-        <section>
-            <div class="container-fluid">
-                <div class="button-group">
+<head>
+    <link rel="stylesheet" href="{% static 'css/list_book_style.css' %}">
+</head>
+<body>
+    <section>
+        <div class="container-fluid">
+            <div class="button-group">
+                <div class="center-buttons">
                     <a href="{% url 'listBook:show_list' %}" class="button-jns button-active">
                         All Book
                     </a>
@@ -18,22 +17,40 @@
                         My Book
                     </a>
                 </div>
-
-                <div id="card-container">
-                    {% for book in books %}
-                    <a href="{% url 'bookDetails:show_details' id=book.id %}">
-                        <div class="card text-center">
-                            <img src="{{ book.image }}" alt="{{ book.title }} Cover"> 
-                            <div class="book-title">
-                                <h2>{{ book.display_title }}</h2>
-                            </div>
-                            <p>Penulis: {{ book.authors }}</p>
+            </div>
+            <div class="button-filter-cont">
+                <div class="center-buttons">
+                    <div class="dropdown">
+                        <button class="dropbtn button-jns">Filter</button>
+                        <div class="dropdown-content">
+                            <a href="{% url 'listBook:show_list' %}">All</a>
+                            <a href="{% url 'listBook:show_list_filter' genre='action' %}">Action</a>
+                            <a href="{% url 'listBook:show_list_filter' genre='romance' %}">Romance</a>
+                            <a href="{% url 'listBook:show_list_filter' genre='science' %}">Science</a>
                         </div>
-                    </a>
-                    {% endfor %}
+                    </div>
                 </div>
             </div>
-        </section>
-        
-    </body>    
-</html>
+
+            <div id="card-container">
+                {% for book in books %}
+                    <div class="card text-center">
+                        <div style="position: relative; z-index: 2;">
+                            <a href="{% url 'bookDetails:show_details' id=book.id %}" style="display: block; position: relative; z-index: 1;">
+                                <img src="{{ book.image }}" alt="{{ book.title }} Cover" style="z-index: 0;"> 
+                            </a>
+                        </div>
+                        <div class="book-title">
+                            <h2>{{ book.display_title }}</h2>
+                        </div>
+                        <p>Penulis: {{ book.authors }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+<!-- 
+    <script src="{% static 'js/dropdown.js' %}">
+    </script> -->
+
+</body>    
