@@ -1,0 +1,35 @@
+<div class="popup" >
+    <div class="popup-header">Pemberitahuan</div>
+    <p>Anda tidak bisa mengakses fitur ini. Untuk mengakses fitur yang lebih banyak, Harap login terlebih dahulu</p>
+    <div class="abc">
+        <button class="close-btn">Close</button>
+        <a href="{% url 'main:login' %}">
+            <button class="login-btn">Login</button>
+        </a>
+    </div>
+</div>
+<header class="main-header">
+    <a href="{% url 'main:show_main' %}" class="logo">
+        <div >ReadMe</div>
+    </a>
+    <nav class="main-nav">
+        {% if user.is_authenticated %}
+            <a href="{% url 'main:logout' %}" class="logout-btn">Logout</a>
+            <a href="{% url 'listBook:show_list' %}">Book List</a>
+            <a href="{% url 'wishlistBook:show_wishlist' %}">Saved</a>
+        {% endif %}
+        {% if not user.is_authenticated %}
+            <div class="show-login">
+                <a href="#">Book List</a>
+                <a href="#">Saved</a>
+            </div>
+            <a href="{% url 'main:register' %}" class="signup-btn">Sign up</a>
+            <a href="{% url 'main:login' %}" class="login-btn" style="color: #0A74DA;">Login</a>
+        {% endif %}
+    </nav>
+    {% if user.is_authenticated %}
+        <a href="#">
+            <div id="profile">{{ user.username }}</div>
+        </a>
+    {% endif %}
+</header>
