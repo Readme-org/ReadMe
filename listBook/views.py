@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
 from django.shortcuts import redirect, render
-from main.models import Book
+from main.models import Book, MyMainBook
 from listBook.models import myBook
 from django.views.decorators.csrf import csrf_exempt
 from main.views import max_title
@@ -47,16 +47,32 @@ def show_list_title(request):
 @login_required(login_url='/login')
 def show_myBook(request):
     books = myBook.objects.filter(user=request.user)
+    booksFromMain = MyMainBook.objects.filter(user=request.user)
+
+    tempBooks = []
+
+    tempBooks.extend(books)
+    tempBooks.extend(booksFromMain)
+
+    print(tempBooks)
 
     context = {
         'name': request.user.username,
-        'books': books,
+        'books': tempBooks,
     }
     return render(request, "myBook.html", context)
 
 def get_book(request):
     books = myBook.objects.filter(user=request.user)
-    return HttpResponse(serializers.serialize('json', books))
+
+    booksFromMain = MyMainBook.objects.filter(user=request.user)
+
+    tempBooks = []
+
+    tempBooks.extend(books)
+    tempBooks.extend(booksFromMain)
+
+    return HttpResponse(serializers.serialize('json', tempBooks))
 
 @csrf_exempt
 def add_book(request):
