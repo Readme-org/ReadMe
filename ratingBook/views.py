@@ -10,7 +10,8 @@ def show_rating(request):
     books = Book.objects.all()
 
     context = {
-        'books': books
+        'books': books,
+        'name': request.user.username,
     }
 
     return render(request, 'rating.html', context)

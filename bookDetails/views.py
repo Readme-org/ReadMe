@@ -8,6 +8,7 @@ def show_details(request, id):
     book = Book.objects.get(pk = id)
     reviews = Rating.objects.filter(book_id=id)
     is_reviewed = Rating.objects.filter(book_id=id, user=request.user).exists()
+    user_review = None
     if is_reviewed:
         user_review = Rating.objects.get(book_id=id, user=request.user)
 
