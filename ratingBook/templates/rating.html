@@ -1,12 +1,175 @@
-{% include 'header.html' %}
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}ReadMe - Rating Book{% endblock title %}
+{% block meta %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/css/bootstrap-select.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
+{% endblock meta %}
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1>404</h1>
-            <p>Page not found</p>
+    <section id="rating">
+        <div class="container">
+            <div class="row">
+                <div class="text-center mx-auto">
+                    <h2 class="display-6 fw-bold mb-4">Add your review!</h2>
+                    <p class="text-muted">Your review will help other people to choose the right book. So, please, be honest and objective 😊 </p>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6">
+                    <div>
+                        <form class="py-3 py-xl-4" method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <select class="shadow form-control selectpicker" required name="book" id="book" data-live-search="true" title="Choose a book">
+                                    {% for book in books %}
+                                    <option data-tokens="{{ book.title }} {{ book.author }}" value="{{ book.id }}">{{ book.title }} by {{ book.author }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <select class="shadow form-control selectpicker" required name="rating" id="rating" title="Choose a rating">
+                                    <option value="1">⭐</option>
+                                    <option value="2">⭐⭐</option>
+                                    <option value="3">⭐⭐⭐</option>
+                                    <option value="4">⭐⭐⭐⭐</option>
+                                    <option value="5">⭐⭐⭐⭐⭐</option>
+                                </select>
+                            </div>
+                            <div class="mb-3"><textarea id="message" class="shadow form-control" name="message" rows="6" required placeholder="Message"></textarea></div>
+                            <div><button class="btn btn-primary shadow d-block w-100" type="submit">Add Review</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+    <section class="pb-5" id="reviews">
+        <div class="container py-2 mt-2">
+            <div class="row mb-5">
+                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                    <h2 class="fw-bold">What people say about this book</h2>
+                    <p class="text-muted">Read the reviews of people who have already read this book.</p>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 d-sm-flex justify-content-sm-center" id="reviews-list">
+                <!-- <div class="col mb-4">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start">
+                        <p class="bg-body-tertiary border rounded border-0 p-4">Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit class dapibus, aliquet morbi.</p>
+                        <div class="d-flex">
+                            <div>
+                                <a href="/rating-book/reviews/${review.id}/update" class="btn btn-primary btn-sm">Update</a>
+                                <a href="/rating-book/reviews/${review.id}/delete" class="btn btn-danger btn-sm">Delete</a>
+                                <p class="fw-bold text-primary mb-0">John Smith</p>
+                                <p class="text-muted mb-0">⭐⭐⭐</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start">
+                        <p class="bg-body-tertiary border rounded border-0 p-4">Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit class dapibus, aliquet morbi.</p>
+                        <div class="d-flex">
+                            <div>
+                                <p class="fw-bold text-primary mb-0">John Smith</p>
+                                <p class="text-muted mb-0">Erat netus</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col mb-4">
+                    <div class="d-flex flex-column align-items-center align-items-sm-start">
+                        <p class="bg-body-tertiary border rounded border-0 p-4">Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit class dapibus, aliquet morbi.</p>
+                        <div class="d-flex">
+                            <div>
+                                <p class="fw-bold text-primary mb-0">John Smith</p>
+                                <p class="text-muted mb-0">Erat netus</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </section>
 </div>
+
+<script>
+    // Variable to store the user id
+    {% if user.is_authenticated %}
+        let userId = {{ user.id }};
+    {% else %}
+        let userId = null;
+    {% endif %}
+
+    // Get the book id from the URL and set it as the default value of the book select
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookId = urlParams.get('book');
+    console.log(bookId);
+    if (bookId) {
+        document.getElementById('book').value = bookId;
+        refreshReviews();
+    }
+
+    // Get reviews by book id
+    async function getReviews(id) {
+        return fetch(`/rating-book/reviews/${id}`)
+            .then(response => response.json());
+    }
+
+    // Refresh reviews list
+    async function refreshReviews() {
+        document.getElementById('reviews-list').innerHTML = '';
+        const reviews = await getReviews(document.getElementById('book').value);
+        let html = '';
+        reviews.forEach((review) => {
+            html += `
+            <div class="col mb-4">
+                <div class="d-flex flex-column align-items-center align-items-sm-start">
+                    <p class="bg-body-tertiary border rounded border-0 p-4">${review.message}</p>
+                    <div class="d-flex">
+                        <div>`
+            if (review.user.id == userId) {
+                html += `
+                            <a href="/rating-book/reviews/${review.id}/update" class="btn btn-primary btn-sm">Update</a>
+                            <a href="/rating-book/reviews/${review.id}/delete" class="btn btn-danger btn-sm">Delete</a>
+                            `;
+            };
+            html += `
+                            <p class="fw-bold text-primary mb-0">${review.user.username}</p>
+                            <p class="text-muted mb-0">${'⭐'.repeat(review.rating)}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+    }
+
+    // Add event listener to the book select
+    document.getElementById('book').addEventListener('change', refreshReviews);
+
+    // Add event listener to the form
+    document.querySelector('form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const bookId = document.getElementById('book').value;
+        const rating = document.getElementById('rating').value;
+        const message = document.getElementById('message').value;
+        const response = await fetch(`/rating-book/reviews/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                book: bookId,
+                rating: rating,
+                message: message
+            })
+        });
+        if (response.status === 201) {
+            refreshReviews();
+        }
+    });
+</script>
 {% endblock %}
