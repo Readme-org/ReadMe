@@ -11,7 +11,7 @@ function searchBooks(query) {
         body: JSON.stringify({ query: query })
       });
 
-    return fetch('http://127.0.0.1:5000/AI_Search', {
+    return fetch('https://octopus-app-cvv6j.ondigitalocean.app/AI_Search', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
