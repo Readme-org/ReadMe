@@ -1,6 +1,6 @@
-{% load static %}
-
 {% include 'header.html' %}
+
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en" id="html">
@@ -31,7 +31,7 @@
             <h1>Discussion thread for "{{ book.title }}"</h1>
         </div>
 
-        <div class="row row-cols-1 g-4" style="margin: 30px 30px 30px 30px;" id="post-card"></div>
+        <div class="row row-cols-1 g-4" id="post-card"></div>
 
         <!-- Button trigger modal -->
         <a href="{% url 'diskusiBook:create_post' book.id %}">
@@ -41,8 +41,13 @@
         </a>
     </main>
 
-    <script src="{% static 'js/thread.js' %}"></script>
     <script>
+        var book_id = "{{ book.id }}";
+        var get_post_url = "{% url 'diskusiBook:get_post_json' book.id %}"
+        var user_id = "{{ user.id }}"
+    </script>
+    <script src="{% static 'js/thread.js' %}"></script>
+    <!-- <script>
         async function getPosts() {
             return fetch("{% url 'diskusiBook:get_post_json' book.id %}").then((res) => res.json())
         }
@@ -136,7 +141,7 @@
             console.log(`5532523`)
         }
 
-    </script>
+    </script> -->
 
 </body>
 
