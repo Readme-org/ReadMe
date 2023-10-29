@@ -20,15 +20,20 @@
             </div>
             <div class="button-filter-cont">
                 <div class="center-buttons">
-                    <div class="dropdown">
-                        <button class="dropbtn button-jns">Filter</button>
-                        <div class="dropdown-content">
-                            <a href="{% url 'listBook:show_list' %}">All</a>
-                            <a href="{% url 'listBook:show_list_filter' genre='action' %}">Action</a>
-                            <a href="{% url 'listBook:show_list_filter' genre='romance' %}">Romance</a>
-                            <a href="{% url 'listBook:show_list_filter' genre='science' %}">Science</a>
+                    <form method="get" action="{% url 'listBook:show_list_title' %}" id="filterForm" class="mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="title" placeholder="Search by Title">
+                            <div class="dropdown">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                                <div class="dropdown-content">
+                                    <a href="{% url 'listBook:show_list' %}">All</a>
+                                    <a href="{% url 'listBook:show_list_filter' genre='action' %}">Action</a>
+                                    <a href="{% url 'listBook:show_list_filter' genre='romance' %}">Romance</a>
+                                    <a href="{% url 'listBook:show_list_filter' genre='science' %}">Science</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -49,8 +54,5 @@
             </div>
         </div>
     </section>
-<!-- 
-    <script src="{% static 'js/dropdown.js' %}">
-    </script> -->
 
 </body>    
