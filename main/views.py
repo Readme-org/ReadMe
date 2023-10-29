@@ -78,6 +78,7 @@ def max_title(title, max_length=20):  # mengganti parameter max_words dengan max
         return title[:max_length-3] + '...'  # mengurangkan 3 karena kita menambahkan '...'
     return title
 
+
 def database_make(request):
     Book.objects.all().delete()
     query = [

@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound
 from django.core import serializers
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from main.models import Book
 from listBook.models import myBook
 from django.views.decorators.csrf import csrf_exempt
@@ -70,5 +70,15 @@ def add_book(request):
         new_book.save()
 
         return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
+
+@csrf_exempt
+def delete_product_ajax(request, id):
+    if request.method == 'DELETE':
+        product = Product.objects.get(user = request.user, pk = id)
+        product.delete()
+        
+        return HttpResponse(redirect("detailsBook:show_details_myBook"))
 
     return HttpResponseNotFound()
