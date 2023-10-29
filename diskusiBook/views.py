@@ -5,15 +5,9 @@ from .models import Comment, Post, Reply
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.core import serializers
 
-def get_post_json(request, id):
-    book = get_object_or_404(Book, id=id)
-    posts = Post.objects.filter(book=book)
-    return HttpResponse(serializers.serialize('json', posts))
-
-def show_discussion(request, id): 
-    book = get_object_or_404(Book, id=id)
+def show_discussion(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
     posts = Post.objects.filter(book=book)
 
     context = {
@@ -24,11 +18,8 @@ def show_discussion(request, id):
 
     return render(request, "thread.html", context)
 
-@login_required(login_url='main:login')
-@csrf_exempt
-def show_post(request, title): #book id
-    post = get_object_or_404(Post, title=title)
-    comments = Comment.objects.filter(post=post)
+def show_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
 
     if "comment-form" in request.POST: # comment-form is name of html element
         comment = request.POST.get("comment") # name="comment" as html attribute
@@ -43,8 +34,6 @@ def show_post(request, title): #book id
         
     context = {
         'post': post,
-        'comments': comments,
-        'name': request.user.username,
     }
     return render(request, 'post.html', context)
 
@@ -63,6 +52,6 @@ def create_post(request, book_id):
 
     return HttpResponseNotFound()
 
-# @property
-# def last_reply(self):
-#     return self.comments.latest("date")
+@property
+def last_reply(self):
+    return self.comments.latest("date")
