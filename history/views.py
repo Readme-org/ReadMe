@@ -26,7 +26,13 @@ def history(request):
         return redirect('history:history')
 
     histories = SearchHistory.objects.filter(user=request.user)
-    return render(request, 'history.html', {'histories': histories})
+
+    context = {
+        'histories': histories,
+        'name': request.user.username
+    }
+
+    return render(request, 'history.html', context)
 
 def add_search_history(request):
     if request.method != 'POST':

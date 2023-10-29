@@ -21,16 +21,31 @@
                             Penulis: {{ book.authors }}
                         </div>
                         <p>ISBN: {{ book.isbn }}</p>
-                        <button class="product-button">Review</button>
-                        <button class="product-button">Diskusi Chat</button>
+                        <button id="wishlist-button" class="product-button">Wishlist</button>
+                        <a href="{% url 'diskusiBook:show_discussion' book.id %}"><button class="product-button">Diskusi Chat</button></a>
                         <div class="product-description">
                             <h4 style="padding-top: 15px;">Deskripsi:</h4>
                             <p>{{ book.description }}</p>
                         </div>
+                        {% include 'reviews.html' %}
                     </td>
                 </tr>
             </table>
         </div>
-        {% include 'reviews.html' %}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const wishlistButton = document.getElementById("wishlist-button");
+
+            wishlistButton.addEventListener("click", function() {
+                if (wishlistButton.classList.contains("product-button-active")) {
+                    wishlistButton.classList.remove("product-button-active");
+                } else {
+                    wishlistButton.classList.add("product-button-active");
+                }
+            });
+        });
+
+    </script>
         
     </body>
