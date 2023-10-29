@@ -28,16 +28,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='post',
-            field=models.ForeignKey(default=diskusiBook.models.get_default_post, on_delete=django.db.models.deletion.CASCADE, to='diskusiBook.post'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='diskusiBook.post'),
         ),
         migrations.AddField(
             model_name='post',
             name='Book',
-            field=models.ForeignKey(default=diskusiBook.models.get_default_book, on_delete=django.db.models.deletion.CASCADE, to='main.book'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.book'),
         ),
         migrations.AddField(
             model_name='reply',
             name='comment',
-            field=models.ForeignKey(default=diskusiBook.models.get_default_book, on_delete=django.db.models.deletion.CASCADE, to='diskusiBook.comment'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='diskusiBook.comment'),
         ),
     ]
