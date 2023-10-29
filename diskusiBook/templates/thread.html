@@ -3,7 +3,7 @@
 {% include 'header.html' %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html">
 
 <head>
     {% block meta %}
@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% endblock meta %}
     <title>Discussion Thread</title>
-    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+    <link rel="stylesheet" href="{% static 'css/thread.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -26,49 +26,22 @@
 </head>
 
 <body>
-    <div class="jumbotron jumbotron-fluid" style="margin: 100px 30px 30px 30px;">
-        <h1>Discussion thread for "{{ book.title }}"</h1>
-    </div>
-
-    <div class="row row-cols-1 g-4" style="margin: 30px 30px 30px 30px;" id="post-card"></div>
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        style="margin: 30px 30px 30px 30px;">
-        Create New Post
-    </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create New Post</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="createpostform" onsubmit="return false;">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="name" class="col-form-label">Title</label>
-                            <input type="text" class="form-control" id="name" name="name"></input>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="col-form-label">Content</label>
-                            <textarea class="form-control" id="description" name="description"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Create
-                        Post</button>
-                </div>
-            </div>
+    <main>
+        <div class="jumbotron jumbotron-fluid" style="margin: 100px 30px 30px 30px;">
+            <h1>Discussion thread for "{{ book.title }}"</h1>
         </div>
-    </div>
 
-    <script src="{% static 'js/post.js' %}"></script>
+        <div class="row row-cols-1 g-4" style="margin: 30px 30px 30px 30px;" id="post-card"></div>
+
+        <!-- Button trigger modal -->
+        <a href="{% url 'diskusiBook:create_post' book.id %}">
+            <button type="button" class="btn btn-primary" id="createnewpost" style="margin: 30px 30px 30px 30px;">
+                Create New Post
+            </button>
+        </a>
+    </main>
+
+    <script src="{% static 'js/thread.js' %}"></script>
     <script>
         async function getPosts() {
             return fetch("{% url 'diskusiBook:get_post_json' book.id %}").then((res) => res.json())
@@ -78,25 +51,54 @@
             document.getElementById("post-card").innerHTML = ""
             const posts = await getPosts()
             let htmlString = `` // needs revision
+            const user = '{{ user_id }}'
             posts.forEach((post, index) => {
                 const editDeleteButtons = `
-                <button class="btn btn-outline-primary" type="button" onclick="editPost(${post.pk}); return false;">Edit</button>
+                <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal${post.pk}">Edit</button>
                         <button class="btn btn-outline-danger" type="button" onclick="deletePost(${post.pk}); return false;">Delete</button>
                 `;
-                const userOwnership = request.user === post.fields.user;
+                const userOwnership = +user === +post.fields.user
 
                 htmlString += `\n
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><a  class="stretched-link" onclick="showPost(${post.fields.title}); return false;">${post.fields.title}</a></h5>
-                    <p class="card-text">${post.fields.content}</p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        ${userOwnership ? editDeleteButtons : ``}
+                <div class="modal fade" id="exampleModal${post.pk}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Edit New Post</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form${post.pk}" onsubmit="return false;">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="title" class="col-form-label">Title</label>
+                                <input type="text" class="form-control" id="title" name="title"></input>
+                            </div>
+                            <div class="mb-3">
+                                <label for="content" class="col-form-label">Content</label>
+                                <textarea class="form-control" id="content" name="content"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="button_edit" data-bs-dismiss="modal" onclick="editPost(${post.pk}); return false;">Edit
+                            Post</button>
                     </div>
                 </div>
             </div>
-        </div>`
+        </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><button  onclick="showPost2(${post.pk}); return false;">${post.fields.title}</button></h5>
+                                <p class="card-text">${post.fields.content}</p>
+                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    ${userOwnership ? editDeleteButtons : ``}
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
             })
 
             document.getElementById("post-card").innerHTML = htmlString
@@ -104,15 +106,36 @@
 
         refreshPosts()
 
-        function createPost() {
-            fetch("{% url 'diskusiBook:create_post' book.id %}", {
+        function showPost2(postId) {
+            // console.log(`tet44tew`)
+            window.location.href = `/diskusi-book/show_post/${postId}`
+        }
+
+        // document.getElementById("button_edit").onclick = editPost
+
+        function editPost(postId) {
+            fetch(`/diskusi-book/edit_post/${postId}`, {
                 method: "POST",
-                body: new FormData(document.querySelector('#form'))
+                body: new FormData(document.querySelector(`#form${postId}`))
             }).then(refreshPosts)
 
-            document.getElementById("createpostform").reset()
+            document.getElementById(`form${postId}`).reset()
             return false
         }
+
+        function deletePost(postId) {
+            fetch(`/diskusi-book/remove_post/${postId}`, {
+                method: "GET",
+
+            }).then(refreshPosts)
+            return false;
+        }
+
+        function showPost1() {
+
+            console.log(`5532523`)
+        }
+
     </script>
 
 </body>
