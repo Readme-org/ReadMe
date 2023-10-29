@@ -6,13 +6,17 @@
 <html lang="en">
     <head>
         <link rel='stylesheet' href="{% static 'css/history_style.css' %}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="{% static 'js/history_script.js' %}"></script>
     </head>
     <body>
         <h1>Search History</h1>
+        <input type="search" id="search-input" placeholder="Search history...">
+
         <div class="history-container">
             {% for history in histories %}
-            <div class="history-item">
+            <div class="history-item" data-date="{{ history.created_at|date:'Ymd' }}" data-query="{{history.query}}" >
                 <div class="history-content">
                     <p class="query">{{ history.query }}</p>
                     <p class="date">{{ history.created_at }}</p>
