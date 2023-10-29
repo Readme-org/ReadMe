@@ -8,10 +8,10 @@
 
 {% block content %}
 <section id="rating">
-    <div class="container">
+    <div class="container pt-5">
         <div class="row">
             <div class="text-center mx-auto">
-                <h2 class="display-6 fw-bold mb-4">Add your review!</h2>
+                <h2 class="display-6 fw-bold mb-4">Update your review!</h2>
                 <p class="text-muted">Your review will help other people to choose the right book. So, please, be honest and objective 😊 </p>
             </div>
         </div>
@@ -22,21 +22,19 @@
                         {% csrf_token %}
                         <div class="mb-3">
                             <select class="shadow form-control selectpicker" required name="book" id="book" title="Choose a book">
-                                <option data-tokens="{{ book.title }} {{ book.author }}" value="{{ book.id }}" selected>{{ book.title }} by {{ book.author }}</option>
+                                <option data-tokens="{{ book.title }} {{ book.authors }}" value="{{ book.id }}" selected>{{ book.title }} by {{ book.authors }}</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <select class="shadow form-control selectpicker" required name="rating" id="rating" title="Choose a rating">
-                                {% for i in 1..5 %}
-                                    {% if i == review.rating %}
-                                        <option value="{{ i }}" selected>{% for j in 1..i %}⭐{% endfor %}</option>
-                                    {% else %}
-                                        <option value="{{ i }}">{{ for j in 1..i %}⭐{% endfor %}</option>
-                                    {% endif %
-                                {% endfor %}
+                                <option value="1" {% if review.rating == 1 %}selected{% endif %}>⭐</option>
+                                <option value="2" {% if review.rating == 2 %}selected{% endif %}>⭐⭐</option>
+                                <option value="3" {% if review.rating == 3 %}selected{% endif %}>⭐⭐⭐</option>
+                                <option value="4" {% if review.rating == 4 %}selected{% endif %}>⭐⭐⭐⭐</option>
+                                <option value="5" {% if review.rating == 5 %}selected{% endif %}>⭐⭐⭐⭐⭐</option>
                             </select>
                         </div>
-                        <div class="mb-3"><textarea id="message" class="shadow form-control" name="message" rows="6" required placeholder="Message">{{ review.content }}</textarea></div>
+                        <div class="mb-3"><textarea id="message" class="shadow form-control" name="message" rows="6" required placeholder="Message">{{ review.message }}</textarea></div>
                         <div><button class="btn btn-primary shadow d-block w-100" type="submit">Update Review</button></div>
                     </form>
                 </div>
@@ -50,27 +48,22 @@
     document.querySelector('form').addEventListener('submit', (e) => {
         // Prevent the default behavior of the form
         e.preventDefault();
-
-        // Get the values of the form
         const book = document.querySelector('#book').value;
-        const rating = document.querySelector('#rating').value;
-        const message = document.querySelector('#message').value;
 
         // Send the data to the server
-        fetch('/rating-book/reviews/update', {
-            method: 'PUT',
-            body: JSON.stringify({
-                book: book,
-                rating: rating,
-                message: message
-            })
+        fetch('/rating-book/reviews/update/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: new FormData(e.target)
         })
-        .then(response => response.json())
-        .then(result => {
+        .then(response => {
             // If message is updated, go to the reviews page
-            if (result.message) {
+            if (response.status == 201) {
                 window.location.href = `/rating-book/?book=${book}`;
             }
         });
     });
 </script>
+{% endblock content %}

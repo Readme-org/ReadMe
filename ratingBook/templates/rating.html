@@ -9,7 +9,7 @@
 {% block content %}
 <div class="container">
     <section id="rating">
-        <div class="container">
+        <div class="container pt-5">
             <div class="row">
                 <div class="text-center mx-auto">
                     <h2 class="display-6 fw-bold mb-4">Add your review!</h2>
@@ -24,7 +24,7 @@
                             <div class="mb-3">
                                 <select class="shadow form-control selectpicker" required name="book" id="book" data-live-search="true" title="Choose a book">
                                     {% for book in books %}
-                                    <option data-tokens="{{ book.title }} {{ book.authors }}" value="{{ book.id }}">{{ book.title }} by {{ book.authors }}</option>
+                                    <option id="opt-{{book.id}}" data-tokens="{{ book.title }} {{ book.authors }}" value="{{ book.id }}">{{ book.title }} by {{ book.authors }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -38,7 +38,7 @@
                                 </select>
                             </div>
                             <div class="mb-3"><textarea id="message" class="shadow form-control" name="message" rows="6" required placeholder="Message"></textarea></div>
-                            <div><button class="btn btn-primary shadow d-block w-100" type="submit">Add Review</button></div>
+                            <div><button class="btn btn-primary shadow d-block w-100" type="submit" id="submit">Add Review</button></div>
                         </form>
                     </div>
                 </div>
@@ -54,42 +54,7 @@
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 d-sm-flex justify-content-sm-center" id="reviews-list">
-                <!-- <div class="col mb-4">
-                    <div class="d-flex flex-column align-items-center align-items-sm-start">
-                        <p class="bg-body-tertiary border rounded border-0 p-4">Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit class dapibus, aliquet morbi.</p>
-                        <div class="d-flex">
-                            <div>
-                                <a href="/rating-book/reviews/${review.id}/update" class="btn btn-primary btn-sm">Update</a>
-                                <a href="/rating-book/reviews/${review.id}/delete" class="btn btn-danger btn-sm">Delete</a>
-                                <p class="fw-bold text-primary mb-0">John Smith</p>
-                                <p class="text-muted mb-0">⭐⭐⭐</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-4">
-                    <div class="d-flex flex-column align-items-center align-items-sm-start">
-                        <p class="bg-body-tertiary border rounded border-0 p-4">Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit class dapibus, aliquet morbi.</p>
-                        <div class="d-flex">
-                            <div>
-                                <p class="fw-bold text-primary mb-0">John Smith</p>
-                                <p class="text-muted mb-0">Erat netus</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col mb-4">
-                    <div class="d-flex flex-column align-items-center align-items-sm-start">
-                        <p class="bg-body-tertiary border rounded border-0 p-4">Nisi sit justo faucibus nec ornare amet, tortor torquent. Blandit class dapibus, aliquet morbi.</p>
-                        <div class="d-flex">
-                            <div>
-                                <p class="fw-bold text-primary mb-0">John Smith</p>
-                                <p class="text-muted mb-0">Erat netus</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+            </div>
         </div>
     </section>
 </div>
@@ -105,9 +70,18 @@
     // Get the book id from the URL and set it as the default value of the book select
     const urlParams = new URLSearchParams(window.location.search);
     const bookId = urlParams.get('book');
-    console.log(bookId);
     if (bookId) {
         document.getElementById('book').value = bookId;
+        let title = document.getElementById(`opt-${bookId}`).innerHTML;
+        // wait for the select to be initialized
+        setTimeout(() => {
+            // set the title of the book selector
+            const bookSelector = document.querySelector("#rating > div > div.row.d-flex.justify-content-center > div > div > form > div:nth-child(2) > div > button")
+            bookSelector.setAttribute("title", title);
+            bookSelector.setAttribute("bs-placeholder", title);
+            const bookSelectorTitle = document.querySelector("#rating > div > div.row.d-flex.justify-content-center > div > div > form > div:nth-child(2) > div > button > div > div > div")
+            bookSelectorTitle.innerHTML = title;
+        }, 100);
         refreshReviews();
     }
 
@@ -120,6 +94,8 @@
     // Refresh reviews list
     async function refreshReviews() {
         document.getElementById('reviews-list').innerHTML = '';
+        document.getElementById('submit').disabled = false;
+        document.getElementById('submit').innerHTML = 'Add Review';
         const reviews = await getReviews(document.getElementById('book').value);
         let html = '';
         reviews.forEach((review) => {
@@ -129,14 +105,16 @@
                     <p class="bg-body-tertiary border rounded border-0 p-4">${review.message}</p>
                     <div class="d-flex">
                         <div>`
-            if (review.user.id == userId) {
+            if (review.user == userId) {
                 html += `
                             <a href="/rating-book/reviews/${review.id}/update" class="btn btn-primary btn-sm">Update</a>
                             <a href="/rating-book/reviews/${review.id}/delete" class="btn btn-danger btn-sm">Delete</a>
                             `;
+                document.getElementById('submit').disabled = true;
+                document.getElementById('submit').innerHTML = 'You have already reviewed this book';
             };
             html += `
-                            <p class="fw-bold text-primary mb-0">${review.user.username}</p>
+                            <p class="fw-bold text-primary mb-0">${review.username}</p>
                             <p class="text-muted mb-0">${'⭐'.repeat(review.rating)}</p>
                         </div>
                     </div>
@@ -144,6 +122,7 @@
             </div>
             `;
         });
+        document.getElementById('reviews-list').innerHTML = html;
     }
 
     // Add event listener to the book select
@@ -152,24 +131,17 @@
     // Add event listener to the form
     document.querySelector('form').addEventListener('submit', async (event) => {
         event.preventDefault();
-        const bookId = document.getElementById('book').value;
-        const rating = document.getElementById('rating').value;
-        const message = document.getElementById('message').value;
-        const response = await fetch(`/rating-book/reviews/create`, {
+        const response = fetch(`/rating-book/reviews/create/`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRFToken': '{{ csrf_token }}'
             },
-            body: JSON.stringify({
-                book: bookId,
-                rating: rating,
-                message: message
-            })
-        });
-        if (response.status === 201) {
+            body: new FormData(event.target)
+        }).then(() => {
             refreshReviews();
-        }
+            document.getElementById('rating').value = '';
+            document.getElementById('message').value = '';
+        });
     });
 </script>
 {% endblock %}
