@@ -34,6 +34,17 @@ def show_list_filter(request, genre):
     return render(request, "list.html", context)
 
 @login_required(login_url='/login')
+def show_list_title(request):
+    title_query = request.GET.get('title', '')
+    temp_books = Book.objects.filter(title__icontains=title_query) 
+
+    context = {
+        'name': request.user.username,
+        'books': temp_books,
+    }
+    return render(request, "list.html", context)
+
+@login_required(login_url='/login')
 def show_myBook(request):
     books = myBook.objects.filter(user=request.user)
 
@@ -73,12 +84,9 @@ def add_book(request):
 
     return HttpResponseNotFound()
 
-@csrf_exempt
-def delete_product_ajax(request, id):
-    if request.method == 'DELETE':
-        product = Product.objects.get(user = request.user, pk = id)
-        product.delete()
-        
-        return HttpResponse(redirect("detailsBook:show_details_myBook"))
+def delete_book(request, id):
+    book = myBook.objects.get(user = request.user, pk = id)
+    book.delete()
 
-    return HttpResponseNotFound()
+    return redirect('listBook:show_myBook')
+        

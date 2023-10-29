@@ -21,4 +21,4 @@ def show_details_myBook(request, id):
         'book': book,
     }
 
-    return render(request, "details.html", context)
+    return render(request, "details_myBook.html", context)

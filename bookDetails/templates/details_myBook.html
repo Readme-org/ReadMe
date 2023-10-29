@@ -30,6 +30,11 @@
                     </td>
                 </tr>
             </table>
+            <a href="{% url 'listBook:delete_book' id=book.id %}">
+                <div class="btn-del-container">
+                    <button class="del-button">Delete</button>
+                </div>
+            </a>
         </div>
         
     </body>

@@ -1,16 +1,23 @@
 body {
     font-family: 'Roboto', sans-serif;
     background: linear-gradient(120deg, #E1F4FF, #CDEFFF);
+    margin: 0;
+    padding: 0;
 }
 
-.product-page {
-    padding-top: 100px;
-    width: 90%;
+.table-page {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1500px; /* Atur sesuai keinginan */
     height: 100vh;
-    margin: auto;
     background-color: #FFFFFF;
-    border-radius: 10px;
+    overflow: auto;
+    padding-top: 60px; /* tambahkan ini */
 }
+
 
 .breadcrumb {
     color: #666;
@@ -31,8 +38,7 @@ body {
 }
 
 .product-image img {
-    max-width: 100%;
-    max-height: 100%;
+    width: 40%;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -41,8 +47,8 @@ body {
 }
 
 .product-details {
-    width: 50%; /* Anda bisa menyesuaikan ini */
-    margin-right: 100px;
+    width: 50%;
+    padding-right: 50px;
 }
 
 .product-meta {
@@ -58,12 +64,13 @@ body {
     margin-right: 10px;
 }
 
-.product-button.info {
-    background-color: lightgray;
+.product-button:hover {
+    background-color: #e0e0e0;
 }
 
 .product-description p, .product-description ul {
     margin-bottom: 10px;
+    padding-top: 10px;
 }
 
 td .details-row {
@@ -72,4 +79,27 @@ td .details-row {
     align-items: center; 
     margin: 0 auto;
     width: 100%;
+}
+
+.btn-del-container {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 70px;
+    width: 100%;
+}
+
+.del-button {
+    padding: 10px 20px;
+    /* margin-left: 40px;
+    margin-top: 20px; */
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #e40d0d;
+    color: #FFFFFF;
+}
+
+.del-button:hover {
+    background-color: #c01111;
 }
