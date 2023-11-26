@@ -150,3 +150,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
 
 APPEND_SLASH=True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://readme-c11-tk.pbp.cs.ui.ac.id",
+    "http://readme-c11-tk.pbp.cs.ui.ac.id",
+]
