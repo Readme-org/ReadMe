@@ -18,7 +18,7 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
 
-
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -40,6 +40,7 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return redirect('main:show_main')
 
+@csrf_exempt
 def register(request):
     form = UserCreationForm()
 
@@ -52,6 +53,7 @@ def register(request):
     context = {'form':form}
     return render(request, 'register.html', context)
 
+@csrf_exempt
 def show_main(request):
     context = {
         'name': request.user.username,
