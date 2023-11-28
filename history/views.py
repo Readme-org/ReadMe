@@ -54,3 +54,15 @@ def add_search_history(request):
     history.save()
 
     return HttpResponse(status=201)
+
+@login_required
+def delete_history_ajax(request):
+    if request.method == 'POST':
+        history_id = request.POST.get('history_id')
+        history = SearchHistory.objects.filter(id=history_id)
+        if history.exists():
+            history.delete()
+            return HttpResponse(status=200)
+        else:
+            return HttpResponseBadRequest('Invalid history ID.')
+    return HttpResponseForbidden('Invalid method.')

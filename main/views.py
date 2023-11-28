@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from .models import Book
 from django.shortcuts import redirect
@@ -11,7 +11,14 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 import requests
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
+from .models import MyMainBook
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
+
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -33,6 +40,7 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return redirect('main:show_main')
 
+@csrf_exempt
 def register(request):
     form = UserCreationForm()
 
@@ -45,6 +53,7 @@ def register(request):
     context = {'form':form}
     return render(request, 'register.html', context)
 
+@csrf_exempt
 def show_main(request):
     context = {
         'name': request.user.username,
@@ -118,5 +127,39 @@ def database_make(request):
             )
             book.save()
     return HttpResponse(b"CREATED DATABASE", status=201)
+
+def get_book(request):
+    books = MyMainBook.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize('json', books))
+
+@csrf_exempt
+def add_book(request):
+    if request.method == 'POST':
+        title = request.POST.get("title")
+        display_title = max_title(title)
+        authors = request.POST.get("authors")
+        image = request.POST.get("image")
+        description = request.POST.get("description")
+        isbn = request.POST.get("isbn")
+        user = request.user
+
+        new_book = MyMainBook(
+            title=title, 
+            display_title=display_title, 
+            authors=authors, 
+            image=image, 
+            description=description,
+            isbn=isbn,
+            user=user,
+        )
+        new_book.save()
+
+        return HttpResponse(b"CREATED", status=201)
+
+    return HttpResponseNotFound()
+
+def show_json(request):
+    data = Book.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 

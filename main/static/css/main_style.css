@@ -403,3 +403,19 @@ body {
   width: 100%; /* Memastikan header memanjang dari ujung ke ujung */
   box-sizing: border-box; /* Agar padding dimasukkan ke dalam ukuran total */
 }
+
+.button-add {
+  background-color: #0A74DA; /* You can choose your preferred color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-top: 20px; /* Add margin-top to separate it from the search bar */
+  transition: background-color 0.3s;
+}
+
+.button-add:hover {
+  background-color: #0160ba; /* Slightly darker color for hover effect */
+}
