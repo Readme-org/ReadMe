@@ -1,25 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from listBook.models import myBook
 from wishlistBook.models import WishlistBook
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
+from main.views import Book
 
 @login_required(login_url='/login')
-def show_wishlist(request):
-    user = request.user
-    wishlist = WishlistBook.objects.filter(user=user)
+def show_wishlist(request, id):
+    books = get_object_or_404(Book, id=id)
     context = {
-        'books': wishlist,
+        'name': request.user.username,
+        'books': books,
     }
     return render(request, "wishlist.html", context)
 
 @csrf_exempt
 def get_books_json(request, id_book):
-    user = request.user
-    book = myBook.objects.get(pk=id_book)
-    _, created = WishlistBook.objects.get_or_create(user=user, book=book)
+    book = get_object_or_404(Book, id=id)
+    created = WishlistBook.objects.get_or_create(user=user, book=book)
 
     if created:
         return HttpResponse(b"CREATED", status=201)
