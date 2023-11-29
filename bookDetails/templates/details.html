@@ -21,7 +21,7 @@
                             Penulis: {{ book.authors }}
                         </div>
                         <p>ISBN: {{ book.isbn }}</p>
-                        <button id="wishlist-button" class="product-button">Wishlist</button>
+                        <a href="{% url 'wishlistBook:add_wishlist' book.id %}"><button id="wishlist-button" class="product-button">Wishlist</button></a>
                         <a href="{% url 'diskusiBook:show_discussion' book.id %}"><button class="product-button">Diskusi Chat</button></a>
                         <div class="product-description">
                             <h4 style="padding-top: 15px;">Deskripsi:</h4>

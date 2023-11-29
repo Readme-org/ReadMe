@@ -6,7 +6,7 @@
          url('../fonts/AvenirNextLTPro-Bold.eot') format('eot'),
          url('../fonts/AvenirNextLTPro-Bold.svg') format('svg');
 }
-  
+
 body {
     font-family: 'Roboto', sans-serif;
     background: linear-gradient(120deg, #E1F4FF, #CDEFFF);
@@ -14,29 +14,11 @@ body {
     justify-content: center;
     align-items: center;
 }
-  
-  .container {
-    margin-top: 70px;
-  }
-  
-  @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-  }
-  
-  .tagline {
-    font-size: 6em;
-    max-width: 80%;
-    color: #0A74DA;
-    font-weight: bold;
-    font-family: 'AvenirNext', sans-serif;
-    margin-bottom: 30px;
-  }
 
 #card-container {
     display: flex;
     flex-wrap: wrap;
-    align-items: stretch; /* memastikan semua kartu memiliki tinggi yang sama di baris yang sama */
+    align-items: stretch;
     justify-content: center;
 }
 
@@ -45,27 +27,25 @@ body {
 }
 
 .card {
-    display: flex; /* menjadikan card sebagai kontainer flex */
-    flex-direction: column; /* mengatur konten card secara vertikal */
-    justify-content: space-between; /* menyebarkan konten di card */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     width: 300px;
-    /* height: 400px; */ /* menghapus properti height agar kartu menyesuaikan tinggi secara otomatis */
     border-radius: 15px;
     margin: 40px;
     padding: 40px 20px;
-    -webkit-box-shadow: 0 10px 15px rgba(0,0,0,.1);
-    box-shadow: 0 10px 15px rgba(0,0,0,.1);
-    -webkit-transition: .5s;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, .1);
     transition: .5s;
     background: #eee;
-
+    position: relative;
 }
-.card:hover{
-    -webkit-transform: scale(1.1);
-            transform: scale(1.1);
-} 
-.card::before{
+
+.card:hover {
+    transform: scale(1.1);
+}
+
+.card::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -74,6 +54,5 @@ body {
     height: 100%;
     background: rgba(255, 255, 255, .1);
     z-index: 1;
-    -webkit-transform: skewY(-5deg) scale(1.5);
-            transform: skewY(-5deg) scale(1.5);
+    transform: skewY(-5deg) scale(1.5);
 }
