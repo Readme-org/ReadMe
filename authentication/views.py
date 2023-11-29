@@ -13,7 +13,7 @@ def login(request):
             auth_login(request, user)
             # Status login sukses.
             return JsonResponse({
-                "username": user.username,
+                "username": user.username, 
                 "status": True,
                 "message": "Login sukses!"
                 # Tambahkan data lainnya jika ingin mengirim data ke Flutter.
@@ -27,5 +27,5 @@ def login(request):
     else:
         return JsonResponse({
             "status": False,
-            "message": "Login gagal, periksa kembali email atau kata sandi."
+            "message": "Login gagal, periksa kembali username atau kata sandi."
         }, status=401)
