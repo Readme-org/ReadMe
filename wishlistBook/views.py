@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from listBook.models import myBook
 from wishlistBook.models import WishlistBook
 from django.http import HttpResponse
@@ -32,16 +32,19 @@ def get_books_json(request):
 
 def add_wishlist(request, book_id):
     buku = get_object_or_404(Book, id=book_id)
-    to_wishlist = WishlistBook(user = request.user, book = buku)
-    to_wishlist.save()
-    return HttpResponse(b"Ditambah", status=201)
+    
+    # Periksa apakah buku sudah ada di wishlist pengguna
+    existing_wishlist_book = WishlistBook.objects.filter(user=request.user, book=buku)
+    
+    if existing_wishlist_book.exists():
+        return HttpResponse(b"Sudah ada di wishlist", status=200)
+    else:
+        to_wishlist = WishlistBook(user=request.user, book=buku)
+        to_wishlist.save()
+        return HttpResponse(b"Ditambah", status=201)
 
 @csrf_exempt
-def deleteWishlist(request, id):
-    user = request.user
-    try:
-        wishlist = WishlistBook.objects.get(user=user, book_id=id)
-        wishlist.delete()
-        return HttpResponse(b"DELETED", status=201)
-    except WishlistBook.DoesNotExist:
-        return HttpResponse(b"NOT FOUND", status=404)
+def deleteWishlist(request, book_id):
+    buku = get_object_or_404(Book, id=book_id)
+    buku.delete()
+    return redirect('wishlistBook:show_wishlist')
