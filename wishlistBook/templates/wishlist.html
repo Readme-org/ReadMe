@@ -11,15 +11,13 @@
     <div id="card-container">
         {% for book in books %}
         <div class="card">
-            <div style="position: relative; z-index: 2;">
-                <a href="{% url 'bookDetails:show_details' id=book.id %}" style="display: block; position: relative; z-index: 1;">
-                    <img src="{{ book.image }}" alt="{{ book.title }} Cover" style="z-index: 0;"> 
-                </a>
-            </div>
+            <a href="{% url 'bookDetails:show_details' id=book.id %}">
+                <img src="{{ book.book.image }}" alt="{{ book.book.title }} Cover"> 
+            </a>
             <div class="title">
-                <h2>{{ book.display_title }}</h2>
+                <h2>{{ book.book.display_title }}</h2>
+                <p>Penulis: {{ book.book.authors }}</p>
             </div>
-            <p>Penulis: {{ book.authors }}</p>
         </div>
         {% endfor %}
     </div>
