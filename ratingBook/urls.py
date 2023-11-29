@@ -10,4 +10,5 @@ urlpatterns = [
     path('reviews/<int:id>/delete/', views.delete_rating, name='delete_rating'),
     path('reviews/create/', views.create_rating_ajax, name='create_rating'),
     path('reviews/update/', views.update_rating_ajax, name='update_rating'),
+    path('rating-json/', views.show_rating_json, name='show_rating_json'), 
 ]

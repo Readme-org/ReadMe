@@ -1,4 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import render
+from wishlistBook.models import WishlistBook
 from main.models import Book
 from django.core import serializers
 
@@ -19,3 +21,7 @@ def get_books_json(request):
             'title': book.book.title,
             
         })
+
+def show_wishlist_json(request):
+    data = WishlistBook.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
