@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import SearchHistory
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
+from django.core import serializers
 
 @login_required
 def history(request):
@@ -66,3 +67,7 @@ def delete_history_ajax(request):
         else:
             return HttpResponseBadRequest('Invalid history ID.')
     return HttpResponseForbidden('Invalid method.')
+
+def show_history_json(request):
+    data = history.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")

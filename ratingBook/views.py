@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from .models import Rating, Book
+from django.core import serializers
 
 # Create your views here.
 @login_required(login_url='main:login')
@@ -77,3 +78,7 @@ def delete_rating(request, id):
         rating.delete()
         return redirect('ratingBook:show_rating')
     return HttpResponseForbidden('You are not allowed to delete this rating')
+
+def show_rating_json(request):
+    data = Rating.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
