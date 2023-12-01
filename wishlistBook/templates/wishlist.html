@@ -1,13 +1,30 @@
 {% include 'header.html' %}
-
 {% load static %}
 
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
-    </head>
-    <body>
-         
-    </body>
+<head>
+    <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
+</head>
+<body>
+    <div id="card-container">
+        {% for book in books %}
+            <div class="card text-center">
+                <div style="position: relative; z-index: 2;">
+                    <a href="{% url 'bookDetails:show_details' id=book.book.id %}" style="display: block; position: relative; z-index: 1;">
+                        <img src="{{ book.book.image }}" alt="{{ book.book.title }} Cover" style="z-index: 0;"> 
+                    </a>
+                </div>
+                <div class="book-title">
+                    <h2>{{ book.book.display_title }}</h2>
+                </div>
+                <p>Penulis: {{ book.book.authors }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+
+<script src="{% static 'js/wishlist_script.js' %}"></script>
 </html>
+{% endblock %}
