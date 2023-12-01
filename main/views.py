@@ -137,7 +137,7 @@ def add_book(request):
     if request.method == 'POST':
         title = request.POST.get("title")
         display_title = max_title(title)
-        authors = request.POST.get("authors")
+        authors = request.POST  .get("authors")
         image = request.POST.get("image")
         description = request.POST.get("description")
         isbn = request.POST.get("isbn")

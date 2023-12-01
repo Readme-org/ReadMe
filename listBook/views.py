@@ -107,6 +107,6 @@ def delete_book(request, id):
     return redirect('listBook:show_myBook')
 
 def show_mybook_json(request):
-    data = myBook.objects.all()
+    data = myBook.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
         
