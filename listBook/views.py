@@ -1,4 +1,5 @@
-from django.http import HttpResponse, HttpResponseNotFound
+import json
+from django.http import HttpResponse, HttpResponseNotFound, JsonResponse
 from django.core import serializers
 from django.shortcuts import redirect, render
 from main.models import Book, MyMainBook
@@ -109,4 +110,34 @@ def delete_book(request, id):
 def show_mybook_json(request):
     data = myBook.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+@csrf_exempt
+def add_book_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        title = data["title"]
+        display_title = max_title(title)
+        authors = data["authors"]
+        image = data["image"]
+        description = data["description"]
+        isbn = data["isbn"]
+        user = request.user
+
+        new_product = myBook.objects.create(
+            title=title, 
+            display_title=display_title, 
+            authors=authors, 
+            image=image, 
+            description=description,
+            isbn=isbn,
+            user=user,
+        )
+
+        new_product.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
         
