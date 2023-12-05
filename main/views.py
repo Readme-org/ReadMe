@@ -170,19 +170,27 @@ def search_books(request):
             data = json.loads(request.body)
             query = data.get('query')
 
+            # Debug: Cetak query untuk memastikan isi query
+            print(f"Query: {query}")
+
             response = requests.post(
                 'https://octopus-app-cvv6j.ondigitalocean.app/AI_Search',
                 headers={'Content-Type': 'application/json'},
                 json={'context': query}
             )
 
+            # Debug: Cetak status code dan response untuk memeriksa hasil
+            print(f"Status Code: {response.status_code}")
+            print(f"Response: {response.json()}")
+
             if response.status_code == 200:
                 books_data = response.json()
                 return JsonResponse({'books': books_data.get('books', [])})
             else:
-                return JsonResponse({'error': 'Error with external book API'}, status=500)
+                return JsonResponse({'error': 'Error with external book API'}, status=response.status_code)
 
         except Exception as e:
+            print(f"Exception: {e}")  # Debug: Cetak exception jika terjadi
             return JsonResponse({'error': str(e)}, status=500)
         
     return HttpResponseNotFound()
