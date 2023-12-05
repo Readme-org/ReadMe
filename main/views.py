@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from .models import Book
@@ -162,4 +163,26 @@ def show_book_json(request):
     data = Book.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@csrf_exempt
+def search_books(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            query = data.get('query')
 
+            response = requests.post(
+                'https://octopus-app-cvv6j.ondigitalocean.app/AI_Search',
+                headers={'Content-Type': 'application/json'},
+                json={'context': query}
+            )
+
+            if response.status_code == 200:
+                books_data = response.json()
+                return JsonResponse({'books': books_data.get('books', [])})
+            else:
+                return JsonResponse({'error': 'Error with external book API'}, status=500)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+        
+    return HttpResponseNotFound()
