@@ -159,6 +159,7 @@ def add_book(request):
 
     return HttpResponseNotFound()
 
+
 def show_book_json(request):
     data = Book.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
