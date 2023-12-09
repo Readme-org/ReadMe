@@ -55,8 +55,6 @@ def show_myBook(request):
     tempBooks.extend(books)
     tempBooks.extend(booksFromMain)
 
-    print(tempBooks)
-
     context = {
         'name': request.user.username,
         'books': tempBooks,
@@ -107,6 +105,19 @@ def delete_book(request, id):
 
     return redirect('listBook:show_myBook')
 
+@csrf_exempt
+@login_required(login_url='/login')
+def delete_book_flutter(request, id):
+    if request.method == 'DELETE':
+        try:
+            book = myBook.objects.get(pk=id, user=request.user)
+            book.delete()
+            return JsonResponse({"status": "success"}, status=200)
+        except myBook.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Book not found"}, status=404)
+
+    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
+
 def show_mybook_json(request):
     data = myBook.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
@@ -141,3 +152,10 @@ def add_book_flutter(request):
     else:
         return JsonResponse({"status": "error"}, status=401)
         
+def show_book_json(request):
+    data = Book.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_book_title_json(request, title):
+    data = Book.objects.filter(title__icontains=title)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
