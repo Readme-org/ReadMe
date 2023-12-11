@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from main.views import Book
@@ -40,6 +40,11 @@ def show_post(request, id):
     }
     return render(request, 'post.html', context)
 
+
+def show_json(request):
+    data = Post.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
 @login_required(login_url='main:login')
 @csrf_exempt
 def create_post(request, id):
@@ -55,6 +60,25 @@ def create_post(request, id):
     
     context = {'form': form, 'book': book}
     return render(request, "create_post.html", context)
+
+@csrf_exempt
+def create_post_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        new_post = Post.objects.create(
+            user = request.user,
+            title = data["title"],
+            content = data["content"],
+            book = get_object_or_404(Book, id=data["book"]),
+        )
+
+        new_post.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
 
 @login_required(login_url='main:login')
 @csrf_exempt
