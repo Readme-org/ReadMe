@@ -91,6 +91,16 @@ def remove_post(request, id):
 
 @login_required(login_url='main:login')
 @csrf_exempt
+def remove_post_flutter(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        post = get_object_or_404(Post, pk=data["post"], user=request.user)
+        post.delete()
+        return JsonResponse({"status": "success", "message": "Post telah berhasil dihapus."}, status=201)
+    return JsonResponse({"status": "error", "message": "Terdapat kesalahan. Silahkan coba lagi."}, status=404)
+
+@login_required(login_url='main:login')
+@csrf_exempt
 def edit_post(request, id):
     if request.method == "POST":
         post = get_object_or_404(Post, pk=id, user=request.user)
@@ -99,6 +109,23 @@ def edit_post(request, id):
         post.save()
         return HttpResponse(b"EDITED", status=201)
     return HttpResponseNotFound()
+
+@login_required(login_url='main:login')
+@csrf_exempt
+def edit_post_flutter(request):
+    if request.method == 'POST':
+        
+        data = json.loads(request.body)
+
+        post = get_object_or_404(Post, pk=data["post"], user=request.user)
+        post.title = data["title"]
+        post.content = data["content"]
+
+        post.save()
+
+        return JsonResponse({"status": "success"}, status=200)
+    else:
+        return JsonResponse({"status": "error"}, status=401)
 
     # form = PostForm(request.POST or None)
     # if request.method == "POST" and form.is_valid():

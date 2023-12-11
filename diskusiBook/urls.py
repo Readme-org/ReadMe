@@ -1,6 +1,6 @@
 from django.urls import path
 from main.views import show_main
-from diskusiBook.views import show_discussion, show_post, create_post, get_post_json, remove_post, edit_post, show_json,create_post_flutter
+from diskusiBook.views import show_discussion, show_post, create_post, get_post_json, remove_post, edit_post, show_json, create_post_flutter, edit_post_flutter, remove_post_flutter
 
 app_name = 'diskusiBook'
 
@@ -13,4 +13,6 @@ urlpatterns = [
     path('edit_post/<int:id>', edit_post, name='edit_post'),
     path('json/', show_json, name='show_json'),
     path('create_post_flutter/', create_post_flutter, name='create_post_flutter'),
+    path('edit_post_flutter/', edit_post_flutter, name='edit_post_flutter'),
+    path('remove_post_flutter/', remove_post_flutter, name='remove_post_flutter'),
 ]
