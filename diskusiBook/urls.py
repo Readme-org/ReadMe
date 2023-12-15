@@ -1,6 +1,6 @@
 from django.urls import path
 from main.views import show_main
-from diskusiBook.views import show_discussion, show_post, create_post, get_post_json, remove_post, edit_post, show_json, create_post_flutter, edit_post_flutter, remove_post_flutter
+from diskusiBook.views import show_discussion, show_post, create_post, get_post_json, remove_post, edit_post, show_json, create_post_flutter, edit_post_flutter, remove_post_flutter, get_username
 
 app_name = 'diskusiBook'
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('create_post_flutter/', create_post_flutter, name='create_post_flutter'),
     path('edit_post_flutter/', edit_post_flutter, name='edit_post_flutter'),
     path('remove_post_flutter/', remove_post_flutter, name='remove_post_flutter'),
+    path('get_username/<int:user_id>/', get_username, name='get_username'),
 ]
