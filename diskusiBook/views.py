@@ -1,10 +1,11 @@
-from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from main.views import Book
 from .models import Comment, Post, Reply
 from .forms import PostForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
@@ -44,6 +45,13 @@ def show_post(request, id):
 def show_json(request):
     data = Post.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def get_username(request, user_id):
+  try:
+    user = User.objects.get(pk=user_id)
+    return JsonResponse({'username': user.username})
+  except User.DoesNotExist:
+    raise Http404("User does not exist")
 
 @login_required(login_url='main:login')
 @csrf_exempt
