@@ -19,12 +19,11 @@ async function refreshPosts() {
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit New Post</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Post</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="form${post.pk}" onsubmit="return false;">
-                    {% csrf_token %}
                     <div class="mb-3">
                         <label for="title" class="col-form-label">Title</label>
                         <input type="text" class="form-control" id="title" name="title"></input>
@@ -37,8 +36,7 @@ async function refreshPosts() {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="button_edit" data-bs-dismiss="modal" onclick="editPost(${post.pk}); return false;">Edit
-                    Post</button>
+                <button type="button" class="btn btn-primary" id="button_edit" data-bs-dismiss="modal" onclick="editPost(${post.pk}); return false;">Edit</button>
             </div>
         </div>
     </div>
@@ -59,17 +57,17 @@ async function refreshPosts() {
     document.getElementById("post-card").innerHTML = htmlString
 }
 
-refreshPosts()
+refreshPosts();
 
 function showPost2(postId) {
-    // console.log(`tet44tew`)
-    window.location.href = `/diskusi-book/show_post/${postId}`
+    // console.log('/diskusi-book/show_post/${bookId}/${postId}');
+    window.location.href = `/diskusi-book/show_post/${postId}/`;
 }
 
 // document.getElementById("button_edit").onclick = editPost
 
 function editPost(postId) {
-    fetch(`/diskusi-book/edit_post/${postId}`, {
+    fetch(`/diskusi-book/edit_post/${postId}/`, {
         method: "POST",
         body: new FormData(document.querySelector(`#form${postId}`))
     }).then(refreshPosts)
@@ -79,7 +77,7 @@ function editPost(postId) {
 }
 
 function deletePost(postId) {
-    fetch(`/diskusi-book/remove_post/${postId}`, {
+    fetch(`/diskusi-book/remove_post/${postId}/`, {
         method: "GET",
 
     }).then(refreshPosts)
