@@ -163,7 +163,8 @@ def edit_post_flutter(request):
 @csrf_exempt
 def create_comment(request, id):
     if request.method == "POST":
-        comment_text = request.POST.get('Commentcontent')
+        commentcontent = f'Commentcontent{id}'
+        comment_text = request.POST.get(commentcontent)
         post = get_object_or_404(Post, pk=id)
 
         comment = Comment.objects.create(
@@ -219,7 +220,8 @@ def remove_comment_flutter(request):
 def edit_comment(request, id):
     if request.method == "POST":
         comment = get_object_or_404(Comment, pk=id, user=request.user)
-        comment.content = request.POST.get("CommentEditcontent")
+        commenteditcontent = f'CommentEditcontent{id}'
+        comment.content = request.POST.get(commenteditcontent)
         comment.save()
         return HttpResponse(b"EDITED", status=201)
     return HttpResponseNotFound()
@@ -244,7 +246,8 @@ def edit_comment_flutter(request):
 @csrf_exempt
 def create_reply(request, id):
     if request.method == "POST":
-        reply_text = request.POST.get('Replycontent')
+        replycontent = f'Replycontent{id}'
+        reply_text = request.POST.get(replycontent)
         comment = get_object_or_404(Comment, pk=id)
 
         reply = Reply.objects.create(
@@ -300,7 +303,8 @@ def remove_reply_flutter(request):
 def edit_reply(request, id):
     if request.method == "POST":
         reply = get_object_or_404(Reply, pk=id, user=request.user)
-        reply.content = request.POST.get("ReplyEditcontent")
+        replyeditcontent = f'ReplyEditcontent{id}'
+        reply.content = request.POST.get(replyeditcontent)
         reply.save()
         return HttpResponse(b"EDITED", status=201)
     return HttpResponseNotFound()
