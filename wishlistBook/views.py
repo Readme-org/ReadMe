@@ -23,6 +23,7 @@ def get_books_json(request):
     temp = []
     for book in buku:
         temp.append({
+            "pk": book.book.pk,
             "title": book.book.title,
             "penulis": book.book.authors,
             "isbn": book.book.isbn,
@@ -46,9 +47,11 @@ def add_wishlist(request, book_id):
         return HttpResponse(b"Ditambah", status=201)
 
 @csrf_exempt
-def deleteWishlist(request, book_id):
-    buku = WishlistBook.objects.get(pk=id)
-    buku.delete()
+def deleteWishlist(request):
+    data = json.loads(request.body)
+    book_id = data.get('book_id')
+    book = Book.objects.get(id=book_id)
+    book.delete()
     return JsonResponse({"status": "Berhasil dihapus"})
 
 @login_required
@@ -57,6 +60,7 @@ def get_json(request):
     temp = []
     for book in buku:
         temp.append({
+            "pk": book.book.pk,
             "title": book.book.title,
             "penulis": book.book.authors,
             "isbn": book.book.isbn,
