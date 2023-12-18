@@ -27,59 +27,24 @@
 
 <body>
 
-    <div id="csspost" class="row row-cols-1 g-4">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <p class="card-text">{{ post.content }}</p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-link" type="button">Comment</button>
-                        {% if request.user == post.user %}
-                        <button class="btn btn-outline-primary" type="button">Edit</button>
-                        <button class="btn btn-outline-danger" type="button">Delete</button>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+    <main>
+        <div class="jumbotron jumbotron-fluid" style="margin: 100px 30px 30px 30px;">
+            <h1>Discussion thread for "{{ book.title }}"</h1>
         </div>
-        {% for comment in comments %}
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ comment.user }}</h5>
-                    <p class="card-text">{{ comment.content }}</p>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-link" type="button">Reply</button>
-                        {% if request.user == comment.user %}
-                        <button class="btn btn-outline-primary" type="button">Edit</button>
-                        <button class="btn btn-outline-danger" type="button">Delete</button>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% for reply in comment.replies.all %}
-        <div class="col d-flex justify-content-end">
-            <div class="card" style="width: 95%;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ reply.user }}</h5>
-                    <p class="card-text">{{ reply.content }}</p>
-                    {% if request.user == reply.user %}
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-outline-primary" type="button">Edit</button>
-                        <button class="btn btn-outline-danger" type="button">Delete</button>
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        {% endfor %}
-    </div>
 
+        <div class="row row-cols-1 g-4" id="comment-card"></div>
+    </main>
 
+    <script>
+        var book_id = "{{ book.id }}";
+        var post_id = "{{ post.pk }}";
+        var get_comment_url = "{% url 'diskusiBook:get_comment_json' post.pk %}"
+        var get_single_post_url = "{% url 'diskusiBook:get_single_post_json' post.pk %}"
+        var user_id = "{{ user.id }}"
+    </script>
+    
     <script src="{% static 'js/post.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
 
 </body>

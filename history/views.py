@@ -69,5 +69,5 @@ def delete_history_ajax(request):
     return HttpResponseForbidden('Invalid method.')
 
 def show_history_json(request):
-    data = history.objects.all()
+    data = SearchHistory.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")

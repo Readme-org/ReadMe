@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from .models import Book
@@ -137,7 +138,7 @@ def add_book(request):
     if request.method == 'POST':
         title = request.POST.get("title")
         display_title = max_title(title)
-        authors = request.POST.get("authors")
+        authors = request.POST  .get("authors")
         image = request.POST.get("image")
         description = request.POST.get("description")
         isbn = request.POST.get("isbn")
@@ -158,8 +159,39 @@ def add_book(request):
 
     return HttpResponseNotFound()
 
+
 def show_book_json(request):
     data = Book.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@csrf_exempt
+def search_books(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            query = data.get('query')
 
+            # Debug: Cetak query untuk memastikan isi query
+            print(f"Query: {query}")
+
+            response = requests.post(
+                'https://octopus-app-cvv6j.ondigitalocean.app/AI_Search',
+                headers={'Content-Type': 'application/json'},
+                json={'context': query}
+            )
+
+            # Debug: Cetak status code dan response untuk memeriksa hasil
+            print(f"Status Code: {response.status_code}")
+            print(f"Response: {response.json()}")
+
+            if response.status_code == 200:
+                books_data = response.json()
+                return JsonResponse({'books': books_data.get('books', [])})
+            else:
+                return JsonResponse({'error': 'Error with external book API'}, status=response.status_code)
+
+        except Exception as e:
+            print(f"Exception: {e}")  # Debug: Cetak exception jika terjadi
+            return JsonResponse({'error': str(e)}, status=500)
+        
+    return HttpResponseNotFound()
