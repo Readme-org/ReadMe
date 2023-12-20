@@ -61,6 +61,7 @@ def show_myBook(request):
     }
     return render(request, "myBook.html", context)
 
+@csrf_exempt
 def get_book(request):
     books = myBook.objects.filter(user=request.user)
 
@@ -99,6 +100,7 @@ def add_book(request):
 
     return HttpResponseNotFound()
 
+@csrf_exempt
 def delete_book(request, id):
     book = myBook.objects.get(user = request.user, pk = id)
     book.delete()
@@ -118,6 +120,7 @@ def delete_book_flutter(request, id):
 
     return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
+@csrf_exempt
 def show_mybook_json(request):
     data = myBook.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
@@ -151,11 +154,13 @@ def add_book_flutter(request):
         return JsonResponse({"status": "success"}, status=200)
     else:
         return JsonResponse({"status": "error"}, status=401)
-        
+
+@csrf_exempt   
 def show_book_json(request):
     data = Book.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@csrf_exempt
 def show_book_title_json(request, title):
     data = Book.objects.filter(title__icontains=title)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
