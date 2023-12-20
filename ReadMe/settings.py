@@ -81,8 +81,6 @@ MIDDLEWARE = [
 #     'https://readme-c11-tk.pbp.cs.ui.ac.id',
 # ]
 
-# CORS_ORIGIN_ALLOW_ALL = True
-
 ROOT_URLCONF = 'ReadMe.urls'
 
 TEMPLATES = [
