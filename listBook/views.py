@@ -109,7 +109,7 @@ def delete_book(request, id):
 
 @csrf_exempt
 def delete_book_flutter(request, id):
-    if request.method == 'DELETE':
+    if request.method == 'POST':
         try:
             book = myBook.objects.get(pk=id, user=request.user)
             book.delete()
