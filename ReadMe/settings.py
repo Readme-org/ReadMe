@@ -75,13 +75,13 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:8000',
-    'http://127.0.0.1:8000',
-    'https://readme-c11-tk.pbp.cs.ui.ac.id',
-]
+# CORS_ORIGIN_WHITELIST = [
+#     'http://localhost:8000',
+#     'http://127.0.0.1:8000',
+#     'https://readme-c11-tk.pbp.cs.ui.ac.id',
+# ]
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'ReadMe.urls'
 
