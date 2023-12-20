@@ -108,7 +108,6 @@ def delete_book(request, id):
     return redirect('listBook:show_myBook')
 
 @csrf_exempt
-@login_required(login_url='/login')
 def delete_book_flutter(request, id):
     if request.method == 'DELETE':
         try:
