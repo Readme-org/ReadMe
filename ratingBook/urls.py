@@ -11,4 +11,11 @@ urlpatterns = [
     path('reviews/create/', views.create_rating_ajax, name='create_rating'),
     path('reviews/update/', views.update_rating_ajax, name='update_rating'),
     path('rating-json/', views.show_rating_json, name='show_rating_json'), 
+    path('mobile/create/', views.create_rating_flutter, name='create_rating_flutter'),
+    path('mobile/update/', views.update_rating_flutter, name='update_rating_flutter'),
+    path('mobile/delete/<int:id>/', views.delete_rating_flutter, name='delete_rating_flutter'),
+    path('mobile/books/', views.get_book_json, name='get_book_json'),
+    path('mobile/image/<int:id>/', views.get_book_image, name='get_book_image'),
+    path('mobile/userid/', views.get_user_id, name='get_user_id'),
+    path('mobile/israted/<int:id>/', views.get_is_rated, name='get_is_rated'),
 ]
