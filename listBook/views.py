@@ -89,7 +89,7 @@ def add_book(request):
             title=title, 
             display_title=display_title, 
             authors=authors, 
-            image=image, 
+            image=image,  
             description=description,
             isbn=isbn,
             user=user,
