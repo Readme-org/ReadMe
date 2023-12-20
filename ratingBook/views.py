@@ -92,7 +92,10 @@ def create_rating_flutter(request):
         book = Book.objects.get(id=book_id)
         rating = request.POST['rating']
         message = request.POST['message']
-
+        # check if user has rated this book
+        if Rating.objects.filter(user=user, book_id=book_id).exists():
+            return HttpResponseForbidden('You have rated this book')
+        
         rating = Rating.objects.create(user=user, book=book, rating=rating, message=message)
         
         return HttpResponse('Rating created successfully', status=201)
@@ -129,3 +132,15 @@ def get_book_image(request, id):
     # the image field is a url, so we need to get the image data
     image_data = requests.get(book.image).content
     return HttpResponse(image_data, content_type="image/png")
+
+def get_user_id(request):
+    if request.user.is_authenticated:
+        return JsonResponse({'id': request.user.id}, status=200)
+    return HttpResponseForbidden('You are not allowed to access this page')
+
+def get_is_rated(request, id):
+    if request.user.is_authenticated:
+        if Rating.objects.filter(user=request.user, book_id=id).exists():
+            return JsonResponse({'is_rated': True}, status=200)
+        return JsonResponse({'is_rated': False}, status=200)
+    return HttpResponseForbidden('You are not allowed to access this page')

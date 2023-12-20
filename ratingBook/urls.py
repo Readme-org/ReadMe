@@ -16,4 +16,6 @@ urlpatterns = [
     path('mobile/delete/<int:id>/', views.delete_rating_flutter, name='delete_rating_flutter'),
     path('mobile/books/', views.get_book_json, name='get_book_json'),
     path('mobile/image/<int:id>/', views.get_book_image, name='get_book_image'),
+    path('mobile/userid/', views.get_user_id, name='get_user_id'),
+    path('mobile/israted/<int:id>/', views.get_is_rated, name='get_is_rated'),
 ]
